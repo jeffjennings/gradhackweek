@@ -1,7 +1,6 @@
 **Welcome to the hack week!**
   
 The slack is here -- http://bit.ly/gradhackslack  
-The slack has logistical info (participant list, daily schedule, etc.)
 
 The overleaf is here -- http://bit.ly/gradhackms
 

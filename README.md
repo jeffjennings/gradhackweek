@@ -1,10 +1,10 @@
 **Welcome to the hack week!**
   
+The google colab jupyter notebook is here -- http://bit.ly/gradhackcolab
+
 The slack is here -- http://bit.ly/gradhackslack  
 
 The overleaf is here -- http://bit.ly/gradhackms
-
-The google colab jupyter notebook is here -- http://bit.ly/gradhackcolab
 
 --------------------------
 Just in case it's helpful, a (very) quick guide to the basics of using github:

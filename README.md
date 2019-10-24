@@ -1,5 +1,5 @@
 **Welcome to the hack week!**
-  
+
 The google colab jupyter notebook is here -- http://bit.ly/gradhackcolab
 
 The slack is here -- http://bit.ly/gradhackslack  
@@ -26,9 +26,11 @@ project simultaneously).
 
 If you don't yet have a separate branch you're working on, create one,
 
-$ git checkout -b \<branch name\> # 'checkout' moves you to \<branch name\>. '-b' creates a new branch
+$ git checkout -b \<branch name\>
 
-Now keep your files for the project in this directory. 
+Here 'checkout' moves you to \<branch name\>. '-b' creates a new branch.
+
+Now keep your files for the project in this directory.
 
 **Pushing local changes to the github repo**  
 Push them back to the github repo as often as needed (at least at the end of each day during the hack  
@@ -40,7 +42,9 @@ $ git status
 
 II) If you're happy with the local changes, add them for staging to the commit you're about to make,
 
-$ git add . # '.' to add all files in local directory; alternatively replace '.' with \<filename\>
+$ git add .
+
+Here '.' is to add all files in local directory; alternatively replace '.' with \<filename\>
 
 III) Record the changes in a commit (keep the quotes around the commit message),
 
@@ -54,15 +58,17 @@ $ git push origin \<branch name\>
 To update your local repo with the current version on github, the safest way is to first just  
 download the remote version of your branch without merging them into your local branch,
 
-$ git fetch # download all the remote branches; alternatively git fetch origin \<branch name\>
+$ git fetch
+
+This downloads all the remote branches; alternatively git fetch origin \<branch name\>
 
 Compare your local repo to the verison you just downloaded
 
-$ git diff 
+$ git diff
 
 It's safest to save a version of your local copy before merging the downloaded version with it,
 
-$ git stash 
+$ git stash
 
 Now if you want, merge the downloaded version of the branch with your local one,
 

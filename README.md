@@ -16,8 +16,8 @@ Hit the green button above: 'Clone or download' --> 'Clone with HTTPS' --> copy 
 III) Copy the repo to your computer,
 
 ```
-cd \<parent directory for your local copy of the repo\>   
-git clone \<copied link\>  
+cd <parent directory for your local copy of the repo>   
+git clone <copied link>  
 cd gradhackweek/
 ```
 
@@ -28,9 +28,9 @@ project simultaneously).
 
 If you don't yet have a separate branch you're working on, create one,
 
-`git checkout -b \<branch name\>`
+`git checkout -b <branch name>`
 
-Here 'checkout' moves you to \<branch name\>. '-b' creates a new branch.
+Here 'checkout' moves you to <branch name>. '-b' creates a new branch.
 
 Now keep your files for the project in this directory.
 
@@ -46,15 +46,15 @@ II) If you're happy with the local changes, add them for staging to the commit y
 
 `git add .`
 
-Here '.' is to add all files in local directory; alternatively replace '.' with \<filename\>
+Here '.' is to add all files in local directory; alternatively replace '.' with <filename>
 
 III) Record the changes in a commit (keep the quotes around the commit message),
 
-`git commit -m "Informative commit message"`
+`git commit -m <"Informative commit message">`
 
 IV) Push the commit to the github repo,
 
-`git push origin \<branch name\>`
+`git push origin <branch name>`
 
 **Downloading and optionally merging the github repo with your local copy**  
 To update your local repo with the current version on github, the safest way is to first just  
@@ -62,7 +62,7 @@ download the remote version of your branch without merging them into your local 
 
 `git fetch`
 
-This downloads all the remote branches; alternatively git fetch origin \<branch name\>
+This downloads all the remote branches; alternatively git fetch origin <branch name>
 
 Compare your local repo to the verison you just downloaded
 

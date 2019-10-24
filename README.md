@@ -1,6 +1,7 @@
 **Welcome to the hack week!**
 
-The google colab jupyter notebook is here -- http://bit.ly/gradhackcolab
+Login to datalore to access the jupyter notebook -- http://datalore.io
+#The google colab jupyter notebook is here -- http://bit.ly/gradhackcolab
 
 The slack is here -- http://bit.ly/gradhackslack  
 

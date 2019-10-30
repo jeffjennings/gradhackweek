@@ -1,6 +1,5 @@
-./admin/*
-**.pdf
-**.pages
+*.pages
+Cam*.pdf
 .DS_Store
 
 # Byte-compiled / optimized / DLL files

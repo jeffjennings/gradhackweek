@@ -2,9 +2,9 @@
 
 Login to datalore to access the jupyter notebook -- http://datalore.io
 
-The slack is here -- http://bit.ly/gradhackslack  
+Login to slack to access the workspace --  http://slack.com
 
-The overleaf is here -- http://bit.ly/gradhackms
+The slack has the overleaf link under the `#paper` channel.
 
 --------------------------
 Just in case it's helpful, a (very) quick guide to the basics of using github:

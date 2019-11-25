@@ -1,6 +1,7 @@
 *.pages
 Cam*.pdf
 .DS_Store
+*.py 
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

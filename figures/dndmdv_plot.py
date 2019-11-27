@@ -156,13 +156,19 @@ ax1.plot(mgal_tng1_vir, ndgal_tng1_vir_new, c='#274B83', ls='-', label=r'TNG100,
 
 
 ## Simulations: galaxies -- Eagle
-ndgal_eag = np.genfromtxt(pwd + '/../data/eagle/dNbydMdV_Mstar_EAGLE.txt').T
+ndgal_eag = np.genfromtxt(pwd + '/../data/eagle/dNbydMdV_Mstar_EAGLE').T
 idxs = np.nonzero(ndgal_eag)
 mgal_eag = mgal_tng[idxs]
 ndgal_eag_new = ndgal_eag[idxs]
 
 ax1.plot(mgal_eag, ndgal_eag_new, c='#69FF02', ls='-', label='Galaxies, Eagle')
 
+ndgal_eag = np.genfromtxt(pwd + '/../data/eagle/dNbydMdV_Mvir_EAGLE').T
+idxs = np.nonzero(ndgal_eag)
+mgal_eag_vir = mgal_tng[idxs]
+ndgal_eag_vir_new = ndgal_eag[idxs]
+
+ax1.plot(mgal_eag_vir, ndgal_eag_vir_new, c='#3d850a', ls='-', label=r'M$_\mathrm{vir}$, Eagle')
 
 #ax1.plot(1, 1, c='#FFFFFF', ls='-', label=' ') # dummy legend entry
 

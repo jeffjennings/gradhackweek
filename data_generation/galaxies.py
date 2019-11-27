@@ -1,10 +1,15 @@
+import sys
+
 import numpy as np
 
 from astropy.cosmology import FlatLambdaCDM
 
 from astropy.io import fits
 
-dataset = "GAMA"
+if len(sys.argv) == 2:
+    dataset = sys.argv[1]
+else:
+    dataset = "dwarfGal"
 
 def get_data(dataset="SDSS"):
     # Cosmological values from Planck, as used by IllustrisTNG
@@ -17,22 +22,34 @@ def get_data(dataset="SDSS"):
         sdssdr7 = np.genfromtxt("../data/sdssdr7_mass_radius.csv", delimiter=',', skip_header=1)
 
         #SDSS data
-        tot_mass = sdssdr7[:, 0]
+        tot_mass = sdssdr7[:, 0] # log(M) with M in M_sun
         # tot_mass_width = sdssdr7[:, 1]
-        z = sdssdr7[:, 2]
+        z = sdssdr7[:, 2] # redshift
         # z_err = sdssdr7[:, 3]
         # petroR50_r = sdssdr7[:, 6]
         # R_hlr = sdssdr7[:, 7]
     elif dataset == "GAMA":
         gamaData = fits.open('../data/GAMA.fits')[1].data
-        tot_mass = gamaData['logmstar']
-        z = gamaData['Z']
+        tot_mass = gamaData['logmstar'] # log(M) with M in M_sun
+        z = gamaData['Z'] # redshift
 
         mass_limit = np.where((tot_mass > 5.9) * (z < 0.08))
         tot_mass = tot_mass[mass_limit]
         z = z[mass_limit]
+    elif dataset == "dwarfGal":
+        dg = fits.open('../data/dwarfGal.fits')[1].data
+        tot_mass = np.log10(1e6 * dg["Mass"]) # log(M) with M in M_sun
+        distance = dg["D_MW_"]/1e3 # distance in Mpc
+        # radius = dg["R1"] # in arcmin
 
-    distance = cosmo.comoving_distance(z).to("Mpc").value
+        val_mass = np.where(np.isfinite(tot_mass))
+
+        tot_mass = tot_mass[val_mass]
+        distance = distance[val_mass]
+        # radius = radius[val_mass]
+
+    if dataset in ["SDSS", "GAMA"]:
+        distance = cosmo.comoving_distance(z).to("Mpc").value
 
     return (tot_mass, distance)
 
@@ -51,6 +68,8 @@ def get_dist_bins(distance, dataset="SDSS"):
         dbedges = np.array([0, 50, 100, 150, 200, 250, 275, 300, 320, 350])
     elif dataset == "GAMA":
         dbedges = np.arange(0, 400, 50)
+    elif dataset == "dwarfGal":
+        dbedges = np.zeros(1)
 
     for di in range(dbedges.size - 1):
         dist_bins.append((dbedges[di], dbedges[di+1]))
@@ -64,14 +83,20 @@ def get_dist_bins(distance, dataset="SDSS"):
     
     return (dist_bin_edges, dist_bins, labels)
 
-def get_mass_bins():
-    # N_bins = int(1e4)
-    # M_bin_edges = np.arange(np.round(min_mass, 1)-0.1, np.round(max_mass, 1)+0.1, 0.1)
-    # M_bin_edges = np.log10(np.logspace(np.round(min_mass, 1)-0.1, np.round(max_mass, 1)+0.1, 1e4))
-    M_bin_edges = np.linspace(5, np.log10(5e15), 200)
-    # M_bin_edges_Ill = np.loadtxt("../data/illustris/mbins.txt")
+def get_mass_bins(dataset="SDSS"):
+    if dataset in ["SDSS", "GAMA"]:
+        # N_bins = int(1e4)
+        # M_bin_edges = np.arange(np.round(min_mass, 1)-0.1, np.round(max_mass, 1)+0.1, 0.1)
+        # M_bin_edges = np.log10(np.logspace(np.round(min_mass, 1)-0.1, np.round(max_mass, 1)+0.1, 1e4))
+        M_bin_edges = np.linspace(5, np.log10(5e15), 200)
+        # M_bin_edges_Ill = np.loadtxt("../data/illustris/mbins.txt")
 
-    M_bin_centers = 0.5*(M_bin_edges[:-1] + M_bin_edges[1:])
+        M_bin_centers = 0.5*(M_bin_edges[:-1] + M_bin_edges[1:])
+    elif dataset == "dwarfGal":
+        M_bin_edges = np.linspace(2.5, 9.5, 10)
+
+        M_bin_centers = 0.5*(M_bin_edges[:-1] + M_bin_edges[1:])
+
 
     return (M_bin_edges, M_bin_centers)
 
@@ -90,6 +115,8 @@ def get_dndmdv(tot_mass, M_bin_edges, M_bin_centers, distance, dist_bin, dataset
         sky_fraction = 8032.0/(4.0*np.pi*(180.0/np.pi)**2) #8032.0 square degrees for SDSS
     elif dataset == "GAMA":
         sky_fraction = 296.158/(4.0*np.pi*(180.0/np.pi)**2)
+    elif dataset == "dwarfGal":
+        sky_fraction = 1.0
 
     if np.isneginf(dist_bin[0]) and np.isposinf(dist_bin[1]):
         dV = 4.0/3.0 * np.pi * (max_distance * 1e6)**3
@@ -112,7 +139,7 @@ max_mass = np.max(tot_mass)
 
 dist_bin_edges, dist_bins, labels = get_dist_bins(distance, dataset=dataset)
 
-M_bin_edges, M_bin_centers = get_mass_bins()
+M_bin_edges, M_bin_centers = get_mass_bins(dataset=dataset)
 
 # dNdM, dNdM_err, dNdMdV, dNdMdV_err = get_dndmdv(tot_mass, M_bin_edges, M_bin_centers, distance, dist_bin=(-np.inf, np.inf), dataset=dataset)
 

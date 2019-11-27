@@ -238,6 +238,6 @@ print('labels',labels)
 plt.legend(handles, labels, loc=[.5,.8], bbox_transform=ax1.transAxes, ncol=4, fontsize=8)
 #plt.tight_layout()
 ##plt.show()
-plt.savefig(pwd + '/dndmdv.png')
+plt.savefig(pwd + '/dndmdv.png', rasterized=True, bbox_inches="tight", pad_inches=0.5)
 
 # TODO: plot total mass of universe (number density of that mass over the size of the universe) and see if it agrees w/ where the 'Minimum' theory line and Baryons+DM line meet

@@ -82,36 +82,36 @@ mns,ndns = np.genfromtxt(pwd + '/../data/NS_Number_Density.csv').T
 ax1.plot(mns,ndns, c='violet', ls = '-', label = 'Neutron Stars')
 
 ## Obs: local group galaxies
-mgal_exp, ndgal = np.genfromtxt(pwd + '/../data/galaxies_obs_dwarfGal.txt').T
+mgal_exp, ndgal, nmdgal = np.genfromtxt(pwd + '/../data/galaxies_obs_dwarfGal.txt').T
 mgal = 10**mgal_exp
 
-idxs = np.nonzero(ndgal)
+idxs = np.nonzero(nmdgal)
 mgal_new = mgal[idxs]
-ndgal_new = ndgal[idxs]
+nmdgal_new = nmdgal[idxs]
 
-ax1.plot(mgal_new, ndgal_new, c='#F20483', ls='-', label='Galaxies (local group)')
+ax1.plot(mgal_new, nmdgal_new, c='#F20483', ls='-', label='Galaxies (local group)')
 
 
 ## Obs: galaxies, SDSS
-mgal_exp, ndgal = np.genfromtxt(pwd + '/../data/galaxies_obs_SDSS.txt').T
+mgal_exp, ndgal, nmdgal = np.genfromtxt(pwd + '/../data/galaxies_obs_SDSS.txt').T
 mgal = 10**mgal_exp
 
-idxs = np.nonzero(ndgal)
+idxs = np.nonzero(nmdgal)
 mgal_new = mgal[idxs]
-ndgal_new = ndgal[idxs]
+nmdgal_new = nmdgal[idxs]
 
-ax1.plot(mgal_new, ndgal_new, c='#CC2EC7', ls='-', label='Galaxies, SDSS')
+ax1.plot(mgal_new, nmdgal_new, c='#CC2EC7', ls='-', label='Galaxies, SDSS')
 
 
 ## Obs: galaxies, GAMA
-mgal_exp, ndgal = np.genfromtxt(pwd + '/../data/galaxies_obs_GAMA.txt').T
+mgal_exp, ndgal, nmdgal = np.genfromtxt(pwd + '/../data/galaxies_obs_GAMA.txt').T
 mgal = 10**mgal_exp
 
-idxs = np.nonzero(ndgal)
+idxs = np.nonzero(nmdgal)
 mgal_new = mgal[idxs]
-ndgal_new = ndgal[idxs]
+nmdgal_new = nmdgal[idxs]
 
-ax1.plot(mgal_new, ndgal_new, c='k', ls='-', label='Galaxies, GAMA')
+ax1.plot(mgal_new, nmdgal_new, c='k', ls='-', label='Galaxies, GAMA')
 
 
 ## Simulations: galaxies -- Illustris TNG300

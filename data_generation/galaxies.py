@@ -126,10 +126,13 @@ def get_dndmdv(tot_mass, M_bin_edges, M_bin_centers, distance, dist_bin, dataset
         assert not (np.isneginf(dist_bin[0]) or np.isposinf(dist_bin[1]))
         dV = 4.0/3.0 * np.pi * ((np.min([dist_bin[1], max_distance]) * 1e6)**3 - (dist_bin[0] * 1e6)**3)
 
+    dNdV = N/(dV*sky_fraction)
+    dNdV_err = N_err/(dV*sky_fraction)
+
     dNdMdV = dNdM/(dV*sky_fraction)
     dNdMdV_err = dNdM_err/(dV*sky_fraction)
 
-    return (dNdM, dNdM_err, dNdMdV, dNdMdV_err)
+    return (dNdM, dNdM_err, dNdV, dNdV_err, dNdMdV, dNdMdV_err)
 
 tot_mass, distance = get_data(dataset=dataset)
 
@@ -144,17 +147,19 @@ dist_bin_edges, dist_bins, labels = get_dist_bins(distance, dataset=dataset)
 M_bin_edges, M_bin_centers = get_mass_bins(dataset=dataset)
 
 if dataset == "dwarfGal":
-    dNdM, dNdM_err, dNdMdV, dNdMdV_err = get_dndmdv(tot_mass, M_bin_edges, M_bin_centers, distance, dist_bin=(-np.inf, np.inf), dataset=dataset)
+    dNdM, dNdM_err, dNdV, dNdV_err, dNdMdV, dNdMdV_err = get_dndmdv(tot_mass, M_bin_edges, M_bin_centers, distance, dist_bin=(-np.inf, np.inf), dataset=dataset)
 elif dataset in ["SDSS", "GAMA"]:
+    dNdV = np.tile(-np.inf, M_bin_centers.size)
     dNdMdV = np.tile(-np.inf, M_bin_centers.size)
 
     for dbi, dist_bin in enumerate(dist_bins[1:]):
-        dNdM, dNdM_err, dNdMdV_bin, dNdMdV_err = get_dndmdv(tot_mass, M_bin_edges, M_bin_centers, distance, dist_bin, dataset=dataset)
+        dNdM, dNdM_err, dNdV, dNdV_err, dNdMdV_bin, dNdMdV_err = get_dndmdv(tot_mass, M_bin_edges, M_bin_centers, distance, dist_bin, dataset=dataset)
 
+        dNdV = np.where(dNdV_err > dNdV, dNdV_err, dNdV)
         dNdMdV = np.where(dNdMdV_bin > dNdMdV, dNdMdV_bin, dNdMdV)
 
-data = np.array([M_bin_centers, dNdMdV])
+data = np.array([M_bin_centers, dNdV, dNdMdV])
 
 footerText = "/Galaxies (SDSS)/'#2ecc71'/'-'/"
 np.savetxt("../data/galaxies_obs_" + dataset + ".txt", data.T,
-            fmt='%1.3e \t', header="M (M_s) \t dN/dMdV (M_s^-1 pc^-3)", footer=footerText)
+            fmt='%1.3e \t', header="M (M_s) \t dN/dV (pc^-3) \t dN/dMdV (M_s^-1 pc^-3)", footer=footerText)

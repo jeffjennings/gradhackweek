@@ -89,7 +89,7 @@ idxs = np.nonzero(ndgal)
 mgal_new = mgal[idxs]
 ndgal_new = ndgal[idxs]
 
-ax1.plot(mgal_new, ndgal_new, c='k', ls='-', label='Galaxies (local group)')
+ax1.plot(mgal_new, ndgal_new, c='#F20483', ls='-', label='Galaxies (local group)')
 
 
 ## Obs: galaxies, SDSS

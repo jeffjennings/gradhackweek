@@ -29,6 +29,8 @@ colors = sns.color_palette("Set2", len(dist_bins))
 if dataset in ["SDSS", "GAMA"]:
     ax_dist.hist([distance[(distance > dist_bin[0]) * (distance <= dist_bin[1])] for dist_bin in dist_bins[1:]],
                     bins=dist_bin_edges, histtype="step", stacked=True, color=colors[1:], label=labels[1:])
+elif dataset == "dwarfGal":
+    ax_dist.hist(distance, bins=dist_bin_edges, histtype="step", stacked=False, color=colors[0], label=labels[0])
 
 for dbi, dist_bin in enumerate(dist_bins):
     dist_mask = (distance > dist_bin[0]) * (distance <= dist_bin[1])

@@ -117,6 +117,8 @@ def get_dndmdv(tot_mass, M_bin_edges, M_bin_centers, distance, dist_bin, dataset
         sky_fraction = 296.158/(4.0*np.pi*(180.0/np.pi)**2)
     elif dataset == "dwarfGal":
         sky_fraction = 1.0
+        # Use a volume of 3 Mpc
+        max_distance = 3.0
 
     if np.isneginf(dist_bin[0]) and np.isposinf(dist_bin[1]):
         dV = 4.0/3.0 * np.pi * (max_distance * 1e6)**3

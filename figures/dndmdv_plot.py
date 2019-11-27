@@ -34,7 +34,7 @@ def makeCmap(hexColour, name, zeroColour='#FFFFFF'):
 
 
 gs = GridSpec(1, 1, bottom=.12, top=.95, left=.1, right=.98, hspace=0)
-fig = plt.figure()
+fig = plt.figure(figsize=(11.69, 8.27))
 ax1 = fig.add_subplot(gs[0])
 
 xlo, xhi = 1e-6, 1e16

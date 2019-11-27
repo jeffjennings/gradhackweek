@@ -93,7 +93,7 @@ def get_mass_bins(dataset="SDSS"):
 
         M_bin_centers = 0.5*(M_bin_edges[:-1] + M_bin_edges[1:])
     elif dataset == "dwarfGal":
-        M_bin_edges = np.linspace(2.5, 9.5, 10)
+        M_bin_edges = np.linspace(2.5, 9.5, 5)
 
         M_bin_centers = 0.5*(M_bin_edges[:-1] + M_bin_edges[1:])
 
@@ -141,14 +141,15 @@ dist_bin_edges, dist_bins, labels = get_dist_bins(distance, dataset=dataset)
 
 M_bin_edges, M_bin_centers = get_mass_bins(dataset=dataset)
 
-# dNdM, dNdM_err, dNdMdV, dNdMdV_err = get_dndmdv(tot_mass, M_bin_edges, M_bin_centers, distance, dist_bin=(-np.inf, np.inf), dataset=dataset)
+if dataset == "dwarfGal":
+    dNdM, dNdM_err, dNdMdV, dNdMdV_err = get_dndmdv(tot_mass, M_bin_edges, M_bin_centers, distance, dist_bin=(-np.inf, np.inf), dataset=dataset)
+elif dataset in ["SDSS", "GAMA"]:
+    dNdMdV = np.tile(-np.inf, M_bin_centers.size)
 
-dNdMdV = np.tile(-np.inf, M_bin_centers.size)
+    for dbi, dist_bin in enumerate(dist_bins[1:]):
+        dNdM, dNdM_err, dNdMdV_bin, dNdMdV_err = get_dndmdv(tot_mass, M_bin_edges, M_bin_centers, distance, dist_bin, dataset=dataset)
 
-for dbi, dist_bin in enumerate(dist_bins[1:]):
-    dNdM, dNdM_err, dNdMdV_bin, dNdMdV_err = get_dndmdv(tot_mass, M_bin_edges, M_bin_centers, distance, dist_bin, dataset=dataset)
-
-    dNdMdV = np.where(dNdMdV_bin > dNdMdV, dNdMdV_bin, dNdMdV)
+        dNdMdV = np.where(dNdMdV_bin > dNdMdV, dNdMdV_bin, dNdMdV)
 
 data = np.array([M_bin_centers, dNdMdV])
 

@@ -77,7 +77,7 @@ ax1.plot(mplan, ndplan, c='#F0E054', ls='-', label='Planets')
 mwds,ndwds = np.genfromtxt(pwd + '/../data/WD_Number_Density.csv').T
 ax1.plot(mwds,ndwds, c='mediumpurple', ls = '-', label = 'White Dwarfs')
 
-## Obs: Neutron Stars 
+## Obs: Neutron Stars
 mns,ndns = np.genfromtxt(pwd + '/../data/NS_Number_Density.csv').T
 ax1.plot(mns,ndns, c='violet', ls = '-', label = 'Neutron Stars')
 
@@ -235,9 +235,9 @@ plt.plot(M_all, nmin / M_all, ls='--', c='#F39C12', label='Minimum')
 handles, labels = ax1.get_legend_handles_labels()
 print('labels',labels)
 #labels, handles = zip(*sorted(zip(labels, handles), key=lambda t: t[0]))
-plt.legend(handles, labels, loc=[.5,.8], bbox_transform=ax1.transAxes, ncol=4, fontsize=8)
+plt.legend(handles, labels, loc=[.4,.7], bbox_transform=ax1.transAxes, ncol=3, fontsize=6)
 #plt.tight_layout()
-##plt.show()
+plt.show()
 plt.savefig(pwd + '/dndmdv.png')
 
 # TODO: plot total mass of universe (number density of that mass over the size of the universe) and see if it agrees w/ where the 'Minimum' theory line and Baryons+DM line meet

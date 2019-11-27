@@ -38,7 +38,7 @@ fig = plt.figure()
 ax1 = fig.add_subplot(gs[0])
 
 xlo, xhi = 1e-6, 1e16
-ylo, yhi = 1e-40, 1e5
+ylo, yhi = 1e-45, 1e5
 M_all = np.array([xlo, xhi])
 #M_all = np.logspace(xlo, xhi, 500)
 
@@ -155,7 +155,7 @@ idxs = np.nonzero(ndgal_eag)
 mgal_eag = mgal_tng[idxs]
 ndgal_eag_new = ndgal_eag[idxs]
 
-ax1.plot(mgal_eag, ndgal_eag_new, c='#69FF02', ls='-', label='Galaxies, Eagle')
+ax1.plot(mgal_eag, ndgal_eag_new, c='#69FF02', ls='-', label='Galaxies, Eagle100')
 
 
 ndgal_eag_vir = np.genfromtxt(pwd + '/../data/eagle/dNbydMdV_Mvir_EAGLE.txt').T
@@ -163,8 +163,25 @@ idxs = np.nonzero(ndgal_eag_vir)
 mgal_eag_vir = mgal_tng[idxs]
 ndgal_eag_vir_new = ndgal_eag_vir[idxs]
 
-ax1.plot(mgal_eag_vir, ndgal_eag_vir_new, c='#3d850a', ls='-', label=r'M$_\mathrm{vir}$, Eagle')
+ax1.plot(mgal_eag_vir, ndgal_eag_vir_new, c='#3d850a', ls='-', label=r'M$_\mathrm{vir}$, Eagle100')
 
+ndgal_eag25 = np.genfromtxt(pwd + '/../data/eagle/dNbydMdV_Mstar_EAGLE25').T
+idxs = np.nonzero(ndgal_eag25)
+mgal_eag25 = mgal_tng[idxs]
+ndgal_eag25_new = ndgal_eag25[idxs]
+
+ax1.plot(mgal_eag25, ndgal_eag25_new, c='#9f6203', ls='-', label='Galaxies, Eagle25')
+
+ndgal_eag25_vir = np.genfromtxt(pwd + '/../data/eagle/dNbydMdV_Mvir_EAGLE25').T
+idxs = np.nonzero(ndgal_eag25_vir)
+mgal_eag25_vir = mgal_tng[idxs]
+ndgal_eag25_vir_new = ndgal_eag25_vir[idxs]
+
+ax1.plot(mgal_eag25_vir, ndgal_eag25_vir_new, c='#f99700', ls='-', label=r'M$_\mathrm{vir}$, Eagle25')
+
+
+ndgal_mag_vir = np.loadtxt(pwd + '/../data/magneticum_range.csv', delimiter=',')
+ax1.plot(ndgal_mag_vir[:,0], ((ndgal_mag_vir[:,1]*0.23)/ndgal_mag_vir[:,0])/1e18, c='k', ls='-', label=r'M$_\mathrm{vir}$, Magneticum')
 
 ## Planck cosmology
 ax1.plot(M_all, baryons, c='#3498DB', ls='--', label='Baryons')
@@ -211,7 +228,7 @@ plt.plot(M_all, nmin / M_all, ls='--', c='#F39C12', label='Minimum')
 handles, labels = ax1.get_legend_handles_labels()
 print('labels',labels)
 #labels, handles = zip(*sorted(zip(labels, handles), key=lambda t: t[0]))
-plt.legend(handles, labels, loc=[.1,.8], bbox_transform=ax1.transAxes, ncol=4, fontsize=8)
+plt.legend(handles, labels, loc=[.5,.8], bbox_transform=ax1.transAxes, ncol=4, fontsize=8)
 #plt.tight_layout()
 plt.show()
 plt.savefig(pwd + '/dndmdv.png')

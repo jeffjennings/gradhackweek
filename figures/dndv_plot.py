@@ -9,6 +9,8 @@ import os
 pwd = os.getcwd()
 import itertools
 
+jeff = True
+
 ## make background M^-2 contours
 def plotBackground(ax, x0, y0, colour):
     cmap=makeCmap(colour,'backgroundColour')
@@ -34,11 +36,14 @@ def makeCmap(hexColour, name, zeroColour='#FFFFFF'):
 
 
 gs = GridSpec(1, 1, bottom=.12, top=.95, left=.1, right=.98, hspace=0)
-fig = plt.figure(figsize=(11.69, 8.27))
+if jeff: fig = plt.figure(figsize=(10, 4))
+else: fig = plt.figure(figsize=(11.69, 8.27))
+
+#fig = plt.figure()
 ax1 = fig.add_subplot(gs[0])
 
 xlo, xhi = 1e-6, 1e16
-ylo, yhi = 1e-45, 1e5
+ylo, yhi = 1e-33, 1e0
 M_all = np.array([xlo, xhi])
 #M_all = np.logspace(xlo, xhi, 500)
 
@@ -117,20 +122,22 @@ ndgal_new = ndgal[idxs]
 ax1.plot(mgal_new, ndgal_new, c='k', ls='-', label='Galaxies, GAMA')
 
 
+gal_bw = np.genfromtxt(pwd + '/../data/jake_sims_binwidths.txt').T
+
 ## Simulations: galaxies -- Illustris TNG300
 mgal_tng = np.genfromtxt(pwd + '/../data/illustris/mbins.txt').T
 
 ndgal_tng3 = np.genfromtxt(pwd + '/../data/illustris/dNbydMdV_Mstar_TNG300.txt').T
 idxs = np.nonzero(ndgal_tng3)
 mgal_tng3 = mgal_tng[idxs]
-ndgal_tng3_new = ndgal_tng3[idxs]
+ndgal_tng3_new = ndgal_tng3[idxs] * gal_bw[idxs]
 
 ax1.plot(mgal_tng3, ndgal_tng3_new, c='#EA5B42', ls='-', label='Galaxies, Illustris TNG300')
 
 ndgal_tng3_vir = np.genfromtxt(pwd + '/../data/illustris/dNbydMdV_Mvir_TNG300.txt').T
 idxs = np.nonzero(ndgal_tng3_vir)
 mgal_tng3_vir = mgal_tng[idxs]
-ndgal_tng3_vir_new = ndgal_tng3_vir[idxs]
+ndgal_tng3_vir_new = ndgal_tng3_vir[idxs] * gal_bw[idxs]
 
 ax1.plot(mgal_tng3_vir, ndgal_tng3_vir_new, c='#802313', ls='-', label=r'TNG300, M$_{\rm vir}$')
 
@@ -138,14 +145,14 @@ ax1.plot(mgal_tng3_vir, ndgal_tng3_vir_new, c='#802313', ls='-', label=r'TNG300,
 ndgal_tng1 = np.genfromtxt(pwd + '/../data/illustris/dNbydMdV_Mstar_TNG100.txt').T
 idxs = np.nonzero(ndgal_tng1)
 mgal_tng1 = mgal_tng[idxs]
-ndgal_tng1_new = ndgal_tng1[idxs]
+ndgal_tng1_new = ndgal_tng1[idxs] * gal_bw[idxs]
 
 ax1.plot(mgal_tng1, ndgal_tng1_new, c='#4284EA', ls='-', label='Galaxies, Illustris TNG100')
 
 ndgal_tng1_vir = np.genfromtxt(pwd + '/../data/illustris/dNbydMdV_Mvir_TNG100.txt').T
 idxs = np.nonzero(ndgal_tng1_vir)
 mgal_tng1_vir = mgal_tng[idxs]
-ndgal_tng1_vir_new = ndgal_tng1_vir[idxs]
+ndgal_tng1_vir_new = ndgal_tng1_vir[idxs] * gal_bw[idxs]
 
 ax1.plot(mgal_tng1_vir, ndgal_tng1_vir_new, c='#274B83', ls='-', label=r'TNG100, M$_{\rm vir}$')
 
@@ -163,7 +170,7 @@ ax1.plot(mgal_tng1_bar, ndgal_tng1_bar_new, c='#63E8D6', ls='-', label=r'TNG100,
 ndgal_eag = np.genfromtxt(pwd + '/../data/eagle/dNbydMdV_Mstar_EAGLE').T
 idxs = np.nonzero(ndgal_eag)
 mgal_eag = mgal_tng[idxs]
-ndgal_eag_new = ndgal_eag[idxs]
+ndgal_eag_new = ndgal_eag[idxs] * gal_bw[idxs]
 
 ax1.plot(mgal_eag, ndgal_eag_new, c='#69FF02', ls='-', label='Galaxies, Eagle100')
 
@@ -171,27 +178,29 @@ ax1.plot(mgal_eag, ndgal_eag_new, c='#69FF02', ls='-', label='Galaxies, Eagle100
 ndgal_eag_vir = np.genfromtxt(pwd + '/../data/eagle/dNbydMdV_Mvir_EAGLE.txt').T
 idxs = np.nonzero(ndgal_eag_vir)
 mgal_eag_vir = mgal_tng[idxs]
-ndgal_eag_vir_new = ndgal_eag_vir[idxs]
+ndgal_eag_vir_new = ndgal_eag_vir[idxs] * gal_bw[idxs]
 
 ax1.plot(mgal_eag_vir, ndgal_eag_vir_new, c='#3d850a', ls='-', label=r'M$_\mathrm{vir}$, Eagle100')
 
 ndgal_eag25 = np.genfromtxt(pwd + '/../data/eagle/dNbydMdV_Mstar_EAGLE25').T
 idxs = np.nonzero(ndgal_eag25)
 mgal_eag25 = mgal_tng[idxs]
-ndgal_eag25_new = ndgal_eag25[idxs]
+ndgal_eag25_new = ndgal_eag25[idxs] * gal_bw[idxs]
 
 ax1.plot(mgal_eag25, ndgal_eag25_new, c='#9f6203', ls='-', label='Galaxies, Eagle25')
 
 ndgal_eag25_vir = np.genfromtxt(pwd + '/../data/eagle/dNbydMdV_Mvir_EAGLE25').T
 idxs = np.nonzero(ndgal_eag25_vir)
 mgal_eag25_vir = mgal_tng[idxs]
-ndgal_eag25_vir_new = ndgal_eag25_vir[idxs]
+ndgal_eag25_vir_new = ndgal_eag25_vir[idxs] * gal_bw[idxs]
 
 ax1.plot(mgal_eag25_vir, ndgal_eag25_vir_new, c='#f99700', ls='-', label=r'M$_\mathrm{vir}$, Eagle25')
 
 
-ndgal_mag_vir = np.loadtxt(pwd + '/../data/magneticum_range.csv', delimiter=',')
-ax1.plot(ndgal_mag_vir[:,0], ((ndgal_mag_vir[:,1]*0.23)/ndgal_mag_vir[:,0])/1e18, c='k', ls='-', label=r'M$_\mathrm{vir}$, Magneticum')
+m_mag_vir, ndgal_mag_vir = np.genfromtxt(pwd + '/../data/magneticum_range.csv', delimiter=',').T
+#ax1.plot(ndgal_mag_vir[:,0], ((ndgal_mag_vir[:,1]*0.23)/ndgal_mag_vir[:,0])/1e18, c='k', ls='-', label=r'M$_\mathrm{vir}$, Magneticum')
+ax1.plot(m_mag_vir, ndgal_mag_vir * 0.23 / 1e18, c='k', ls='-', label=r'M$_\mathrm{vir}$, Magneticum')
+
 
 ## Planck cosmology
 ax1.plot(M_all, baryons, c='#3498DB', ls='--', label='Baryons')
@@ -227,7 +236,7 @@ nmin = 1e-32
 ns = 2.6e38 / M_all**3
 nobs = 6.0953e-81 * M_all**(-1.5)
 
-plt.plot(M_all, nmin / M_all, ls='--', c='#F39C12', label='Minimum')
+plt.axhline(nmin, ls='--', c='#F39C12', label='Minimum')
 #plt.plot(M_all, ns / M_all, ls='--', c='#CF2419', label='Maximum')
 
 

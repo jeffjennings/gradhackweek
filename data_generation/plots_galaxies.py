@@ -7,7 +7,9 @@ sns.set_style("ticks")
 
 from galaxies import get_data, get_dist_bins, get_mass_bins, get_dndmdv
 
-tot_mass, distance = get_data(dataset="SDSS")
+dataset = "SDSS"
+
+tot_mass, distance = get_data(dataset=dataset)
 dist_bin_edges, dist_bins, labels = get_dist_bins(distance)
 M_bin_edges, M_bin_centers = get_mass_bins()
 
@@ -45,8 +47,8 @@ ax_mass.legend(loc="upper left")
 ax_mass.set_xlabel(r"Mass ($\mathrm{M_\odot}$)")
 ax_mass.set_ylabel(r"Number")
 
-fig_dist.savefig("../figures/Distance_distribution.pdf", rasterized=True, bbox_inches="tight", pad_inches=0.5)
-fig_mass.savefig("../figures/Mass_distribution.pdf", rasterized=True, bbox_inches="tight", pad_inches=0.5)
+fig_dist.savefig("../figures/Distance_distribution_" + dataset + ".pdf", rasterized=True, bbox_inches="tight", pad_inches=0.5)
+fig_mass.savefig("../figures/Mass_distribution_" + dataset + ".pdf", rasterized=True, bbox_inches="tight", pad_inches=0.5)
 # plt.show()
 
 # Plot results
@@ -75,6 +77,6 @@ ax_dndmdv.set_yscale("log")
 ax_dndmdv.set_xlabel(r"Mass ($\mathrm{M_\odot}$)")
 ax_dndmdv.set_ylabel(r"Number density ($\mathrm{M_\odot^{-1} pc^{-3}}$)")
 
-fig_dndm.savefig("../figures/Mass_density.pdf", rasterized=True, bbox_inches="tight", pad_inches=0.5)
-fig_dndmdv.savefig("../figures/Number_density.pdf", rasterized=True, bbox_inches="tight", pad_inches=0.5)
+fig_dndm.savefig("../figures/Mass_density_" + dataset + ".pdf", rasterized=True, bbox_inches="tight", pad_inches=0.5)
+fig_dndmdv.savefig("../figures/Number_density_" + dataset + ".pdf", rasterized=True, bbox_inches="tight", pad_inches=0.5)
 # plt.show()

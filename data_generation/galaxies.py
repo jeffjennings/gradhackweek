@@ -4,6 +4,8 @@ from astropy.cosmology import FlatLambdaCDM
 
 from astropy.io import fits
 
+dataset = "SDSS"
+
 def get_data(dataset="SDSS"):
     # Cosmological values from Planck, as used by IllustrisTNG
     Omega_m = 0.3089
@@ -34,7 +36,7 @@ def get_data(dataset="SDSS"):
 
     return (tot_mass, distance)
 
-tot_mass, distance = get_data(dataset="SDSS")
+tot_mass, distance = get_data(dataset=dataset)
 
 # plt.hist(tot_mass, bins=50)
 
@@ -120,4 +122,5 @@ for dbi, dist_bin in enumerate(dist_bins[1:]):
 data = np.array([M_bin_centers, dNdMdV])
 
 footerText = "/Galaxies (SDSS)/'#2ecc71'/'-'/"
-np.savetxt("../data/galaxies_obs.txt", data.T, fmt='%1.3e \t', header="M (M_s) \t dN/dMdV (M_s^-1 pc^-3)", footer=footerText)
+np.savetxt("../data/galaxies_obs_" + dataset + ".txt", data.T,
+            fmt='%1.3e \t', header="M (M_s) \t dN/dMdV (M_s^-1 pc^-3)", footer=footerText)

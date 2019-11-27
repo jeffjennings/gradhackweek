@@ -12,8 +12,8 @@ import itertools
 ## make background M^-2 contours
 def plotBackground(ax, x0, y0, colour):
     cmap=makeCmap(colour,'backgroundColour')
-    yMin=y0*np.power(x0/1e20,2)
-    yMax=y0*np.power(x0/1e-20,2)
+    yMin=y0*np.power(x0/1e20,1)
+    yMax=y0*np.power(x0/1e-20,1)
     nColours=25
     change=0.01
     for i in range(nColours):
@@ -49,7 +49,7 @@ ax1.set_yscale('log')
 ax1.set_xlim(xlo, xhi)
 ax1.set_ylim(ylo, yhi)
 ax1.set_xlabel(r'Mass [M$_\odot]$')
-ax1.set_ylabel(r'Number density, $dN / (dM dV)$ [M$_\odot^{-1}$ pc$^{-3}]$')
+ax1.set_ylabel(r'Number density, $dN / dV$ [pc$^{-3}]$')
 
 
 ## Planck cosmology
@@ -62,27 +62,30 @@ Ostar = 0.003
 mass_density_gcm3 = 9.9e-30
 mass_density_Mspc3 = mass_density_gcm3 * (100*3e16)**3 / (1000*2e30)
 
-matter = (mass_density_Mspc3 * Omh2 / (H0*0.01)**2) / M_all**2
-baryons = (mass_density_Mspc3 * Obh2 / (H0*0.01)**2) / M_all**2
-cdm = (mass_density_Mspc3 * Och2 / (H0*0.01)**2) / M_all**2
+matter = (mass_density_Mspc3 * Omh2 / (H0*0.01)**2) / M_all
+baryons = (mass_density_Mspc3 * Obh2 / (H0*0.01)**2) / M_all
+cdm = (mass_density_Mspc3 * Och2 / (H0*0.01)**2) / M_all
 
 
 ## Obs: planets
-mplan, ndplan, _ = np.genfromtxt(pwd + '/../data/planets_obs.txt').T
+mplan, ndplan, nplan = np.genfromtxt(pwd + '/../data/planets_obs.txt').T
 #rho_star = .0594 # mass density of stars in local volume of planet sample. https://arxiv.org/abs/1807.04592.
 #ndplan *= Ostar * mass_density_Mspc3 / rho_star
-ax1.plot(mplan, ndplan, c='#8C13DA', ls='-', label='Planets')
+ax1.plot(mplan, nplan, c='#8C13DA', ls='-', label='Planets')
+
 
 ## Obs: white dwarfs
 mwds,ndwds = np.genfromtxt(pwd + '/../data/WD_Number_Density.csv').T
 ax1.plot(mwds,ndwds, c='mediumpurple', ls = '-', label = 'White Dwarfs')
 
+
 ## Obs: Neutron Stars
 mns,ndns = np.genfromtxt(pwd + '/../data/NS_Number_Density.csv').T
 ax1.plot(mns,ndns, c='violet', ls = '-', label = 'Neutron Stars')
 
+
 ## Obs: local group galaxies
-mgal_exp, ndgal = np.genfromtxt(pwd + '/../data/galaxies_obs_dwarfGal.txt').T
+mgal_exp, ndgal, _ = np.genfromtxt(pwd + '/../data/galaxies_obs_dwarfGal.txt').T
 mgal = 10**mgal_exp
 
 idxs = np.nonzero(ndgal)
@@ -93,7 +96,7 @@ ax1.plot(mgal_new, ndgal_new, c='#F20483', ls='-', label='Galaxies (local group)
 
 
 ## Obs: galaxies, SDSS
-mgal_exp, ndgal = np.genfromtxt(pwd + '/../data/galaxies_obs_SDSS.txt').T
+mgal_exp, ndgal, _ = np.genfromtxt(pwd + '/../data/galaxies_obs_SDSS.txt').T
 mgal = 10**mgal_exp
 
 idxs = np.nonzero(ndgal)
@@ -104,7 +107,7 @@ ax1.plot(mgal_new, ndgal_new, c='#CC2EC7', ls='-', label='Galaxies, SDSS')
 
 
 ## Obs: galaxies, GAMA
-mgal_exp, ndgal = np.genfromtxt(pwd + '/../data/galaxies_obs_GAMA.txt').T
+mgal_exp, ndgal, _ = np.genfromtxt(pwd + '/../data/galaxies_obs_GAMA.txt').T
 mgal = 10**mgal_exp
 
 idxs = np.nonzero(ndgal)
@@ -238,6 +241,6 @@ print('labels',labels)
 plt.legend(handles, labels, loc=[.4,.7], bbox_transform=ax1.transAxes, ncol=3, fontsize=6)
 #plt.tight_layout()
 plt.show()
-plt.savefig(pwd + '/dndmdv.png')
+plt.savefig(pwd + '/dndv.png')
 
 # TODO: plot total mass of universe (number density of that mass over the size of the universe) and see if it agrees w/ where the 'Minimum' theory line and Baryons+DM line meet

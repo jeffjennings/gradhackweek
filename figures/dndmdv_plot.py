@@ -42,7 +42,7 @@ ylo, yhi = 1e-45, 1e5
 M_all = np.array([xlo, xhi])
 #M_all = np.logspace(xlo, xhi, 500)
 
-plotBackground(ax1, xhi*1e2, ylo, '#011627')
+plotBackground(ax1, xhi*1e4, ylo, '#011627')
 
 ax1.set_xscale('log')
 ax1.set_yscale('log')

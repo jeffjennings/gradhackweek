@@ -74,6 +74,17 @@ mplan, ndplan = np.genfromtxt(pwd + '/../data/planets_obs.txt').T
 ax1.plot(mplan, ndplan, c='#F0E054', ls='-', label='Planets')
 
 
+## Obs: local group galaxies
+mgal_exp, ndgal = np.genfromtxt(pwd + '/../data/galaxies_obs_dwarfGal.txt').T
+mgal = 10**mgal_exp
+
+idxs = np.nonzero(ndgal)
+mgal_new = mgal[idxs]
+ndgal_new = ndgal[idxs]
+
+ax1.plot(mgal_new, ndgal_new, c='k', ls='-', label='Galaxies (local group)')
+
+
 ## Obs: galaxies, SDSS
 mgal_exp, ndgal = np.genfromtxt(pwd + '/../data/galaxies_obs_SDSS.txt').T
 mgal = 10**mgal_exp

@@ -14,8 +14,8 @@ if len(sys.argv) == 2:
 else:
     dataset = "dwarfGal"
 
-tot_mass, distance = get_data(dataset=dataset)
-dist_bin_edges, dist_bins, labels = get_dist_bins(distance, dataset=dataset)
+tot_mass, distance, z = get_data(dataset=dataset)
+dist_bin_edges, dist_bins, z_bins, labels = get_dist_bins(distance, z=z, dataset=dataset)
 M_bin_edges, M_bin_centers = get_mass_bins(dataset=dataset)
 
 fig_dist = plt.figure()
@@ -68,7 +68,8 @@ fig_dndmdv = plt.figure()
 ax_dndmdv = fig_dndmdv.add_subplot(111)
 
 for dbi, dist_bin in enumerate(dist_bins):
-    dNdM, dNdM_err, dNdV, dNdV_err, dNdMdV, dNdMdV_err = get_dndmdv(tot_mass, M_bin_edges, M_bin_centers, distance, dist_bin, dataset=dataset)
+    dNdM, dNdM_err, dNdV, dNdV_err, dNdMdV, dNdMdV_err = get_dndmdv(tot_mass, M_bin_edges, M_bin_centers,
+                                                                distance, dist_bin, z_bins[dbi], z=z, dataset=dataset)
 
     ax_dndm.errorbar(M_bin_centers, dNdM, yerr=dNdM_err, color=colors[dbi], label=labels[dbi])
     ax_dndmdv.errorbar(M_bin_centers, dNdMdV, yerr=dNdMdV_err, color=colors[dbi], label=labels[dbi])

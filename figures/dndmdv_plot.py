@@ -155,9 +155,6 @@ ndgal_eag_vir_new = ndgal_eag_vir[idxs]
 ax1.plot(mgal_eag_vir, ndgal_eag_vir_new, c='#3d850a', ls='-', label=r'M$_\mathrm{vir}$, Eagle')
 
 
-ax1.plot(mgal_eag_vir, ndgal_eag_vir_new, c='#3d850a', ls='-', label=r'M$_\mathrm{vir}$, Eagle')
-
-
 ## Planck cosmology
 ax1.plot(M_all, baryons, c='#3498DB', ls='--', label='Baryons')
 ax1.plot(M_all, cdm,  c='#2ECC71', ls='--', label='Dark matter')

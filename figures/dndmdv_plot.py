@@ -144,19 +144,14 @@ ndgal_eag_new = ndgal_eag[idxs]
 
 ax1.plot(mgal_eag, ndgal_eag_new, c='#69FF02', ls='-', label='Galaxies, Eagle')
 
-<<<<<<< HEAD
+
 ndgal_eag_vir = np.genfromtxt(pwd + '/../data/eagle/dNbydMdV_Mvir_EAGLE.txt').T
 idxs = np.nonzero(ndgal_eag_vir)
 mgal_eag_vir = mgal_tng[idxs]
 ndgal_eag_vir_new = ndgal_eag_vir[idxs]
-=======
-ndgal_eag = np.genfromtxt(pwd + '/../data/eagle/dNbydMdV_Mvir_EAGLE').T
-idxs = np.nonzero(ndgal_eag)
-mgal_eag_vir = mgal_tng[idxs]
-ndgal_eag_vir_new = ndgal_eag[idxs]
 
 ax1.plot(mgal_eag_vir, ndgal_eag_vir_new, c='#3d850a', ls='-', label=r'M$_\mathrm{vir}$, Eagle')
->>>>>>> 5f6245f59fd75ff232835a9e1b18526c18bc0b08
+
 
 ax1.plot(mgal_eag_vir, ndgal_eag_vir_new, c='#3d850a', ls='-', label=r'M$_\mathrm{vir}$, Eagle')
 

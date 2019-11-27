@@ -7,10 +7,10 @@ sns.set_style("ticks")
 
 from galaxies import get_data, get_dist_bins, get_mass_bins, get_dndmdv
 
-dataset = "SDSS"
+dataset = "GAMA"
 
 tot_mass, distance = get_data(dataset=dataset)
-dist_bin_edges, dist_bins, labels = get_dist_bins(distance)
+dist_bin_edges, dist_bins, labels = get_dist_bins(distance, dataset=dataset)
 M_bin_edges, M_bin_centers = get_mass_bins()
 
 fig_dist = plt.figure()
@@ -60,7 +60,7 @@ fig_dndmdv = plt.figure()
 ax_dndmdv = fig_dndmdv.add_subplot(111)
 
 for dbi, dist_bin in enumerate(dist_bins):
-    dNdM, dNdM_err, dNdMdV, dNdMdV_err = get_dndmdv(tot_mass, M_bin_edges, dist_bin)
+    dNdM, dNdM_err, dNdMdV, dNdMdV_err = get_dndmdv(tot_mass, M_bin_edges, M_bin_centers, distance, dist_bin, dataset=dataset)
 
     ax_dndm.errorbar(M_bin_centers, dNdM, yerr=dNdM_err, color=colors[dbi], label=labels[dbi])
     ax_dndmdv.errorbar(M_bin_centers, dNdMdV, yerr=dNdMdV_err, color=colors[dbi], label=labels[dbi])

@@ -1,0 +1,103 @@
+SIMPLE  =                    T / Standard FITS Format                           BITPIX  =                    8 / Character data                                 NAXIS   =                    0 / No Image --- just extension(s)                 EXTEND  =                    T / There are standard extensions                  ORIGIN  = 'xml2fits_v1.95'     / Converted from XML-Astrores to FITS                                     e-mail: question@simbad.u-strasbg.fr                   LONGSTRN= 'OGIP 1.0'           / Long string convention (&/CONTINUE) may be usedDATE    = '2019-11-27'         / Written on 2019-11-27:14:38:24 (GMT)                                        by: apache@vizier.u-strasbg.fr                              **********************************************************                          EXCERPT from catalogues stored in VizieR (CDS)                                             with the following conditions:                                   **********************************************************                                                                                                      VizieR Astronomical Server vizier.u-strasbg.fr                                  Date: 2019-11-27T14:38:24 [V1.99+ (14-Oct-2013)]                                In case of problem, please report to: cds-question@unistra.fr                                                                                          INFO    = 'votable-version=1.99+ (14-Oct-2013)' / #                             INFO    = '-ref=VIZ5dde88cea56e' / #                                            INFO    = '-out.max=unlimited' / #                                              Q-PARAMS=                   20 / Number of queryParameters (followed by list)            -oc.form=dec                                                                    -out.max=unlimited                                                              #out.form=FITS (ascii) Table                                                    -order=I                                                                        -nav=cat:J/AJ/144/4&tab:{J/AJ/144/4/catalog}&key:source=J/AJ/144/4/cata         log&HTTPPRM:&&-ref=VIZ5dde88cea56e&-out.max=unlimited&-out.form=HTML            Table&-order=I&-oc.form=sexa&-out.src=J/AJ/144/4/catalog&-c.eq=J2000&-c         .r=                                                                             2&-c.u=arcmin&-c.geom=r&-out=RAJ2000&-out=DEJ2000&-out=D(MW)&-out=R1&-o         ut=u_R1&-out=Ell&-out=f_Ell&-out=Mass&-out=Mdyn&-meta.ucd=2&-meta=1&-me         ta.foot=1&-usenav=1&-bmark=POST&                                                -c.eq=J2000                                                                     -c.r= 2                                                                         -c.u=arcmin                                                                     -c.geom=r                                                                       -out.src=J/AJ/144/4/catalog                                                     -source=J/AJ/144/4/catalog                                                      -out=RAJ2000                                                                    -out=DEJ2000                                                                    -out=D(MW)                                                                      -out=R1                                                                         -out=u_R1                                                                       -out=Ell                                                                        -out=f_Ell                                                                      -out=Mass                                                                       -out=Mdyn                                                                       #                                                                               #RESOURCE=yCat_51440004                                                         #Name: J/AJ/144/4                                                               #Title: Properties of dwarf galaxies in the Local Group (McConnachie+,          2012)                                                                           #Coosys J2000: eq_FK5 J2000                                                                                                                            END                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             XTENSION= 'TABLE   '           / Ascii Table Extension (TAB and NEWLINE sep)    BITPIX  =                    8 / Character data                                 NAXIS   =                    2 / Simple 2-D matrix                              NAXIS1  =                   62 / Number of bytes per record                     NAXIS2  =                  102 / Number of records                              PCOUNT  =                    0 / Get rid of random parameters                   GCOUNT  =                    1 / Only one group (isn't it obvious?)             TFIELDS =                    9 / Number of data fields (columns)                CDS-CAT = 'J/AJ/144/4'         / Catalogue designation in CDS nomenclature               Properties of dwarf galaxies in the Local Group (McConnachie+, 2012)   EXTNAME = 'J_AJ_144_4_catalog' / Identification of the table                    CDS-NAME= 'J/AJ/144/4/catalog' / Table name in METAtab                                   Catalog of the observed properties of dwarf galaxies in and around the          Local Group                                                            TBCOL1  =                    2 / UCD=pos.eq.ra;meta.main char:10 offset=1       TFORM1  = 'A10     '           / Fortran Format                                 TTYPE1  = 'RAJ2000 '           / ? Hour of Right Ascension (J2000)              TUNIT1  = '"h:m:s" '           / hour minutes seconds (sexagesimal time from                                     hours)                                         TBCOL2  =                   13 / UCD=pos.eq.dec;meta.main char:9 offset=12      TFORM2  = 'A9      '           / Fortran Format                                 TTYPE2  = 'DEJ2000 '           / ? Degree of Declination (J2000)                TUNIT2  = '"d:m:s" '           / degree arcminute arcsecond (sexagesimal angle                                   from degree)                                   TBCOL3  =                   23 / UCD=pos.distance;pos.galactocentri offset=22   TFORM3  = 'I4      '           / Fortran Format                                 TTYPE3  = 'D_MW_   '           / ? Distance for the Galactocentric (MW) frame of                                 reference (10) [NULL integer written as an                                      empty string]                                  TUNIT3  = 'kpc     '           / kiloparsec                                     TNULL3  =               -32768 / NULL definition                                TBCOL4  =                   28 / UCD=phys.angSize float: ...... offset=27       TFORM4  = 'F6.2    '           / Fortran Format                                 TTYPE4  = 'R1      '           / ? Radius containing half the light of the                                       galaxy, measured on the semimajor axis (see                                     Section 4 for further details)                 TUNIT4  = 'arcmin  '           / minute of arc                                  TBCOL5  =                   35 / UCD=meta.code.error char:1 ... offset=34       TFORM5  = 'A1      '           / Fortran Format                                 TTYPE5  = 'u_R1    '           / [:] Uncertainty flag on R1                     TBCOL6  =                   37 / UCD=src.ellipticity float: ... offset=36       TFORM6  = 'F5.2    '           / Fortran Format                                 TTYPE6  = 'Ell     '           / ? Ellipticity {epsilon}=1-b/a, where a and b                                    are the semimajor and semiminor axes (16)      TBCOL7  =                   43 / UCD=meta.code char:1 ......... offset=42       TFORM7  = 'A1      '           / Fortran Format                                 TTYPE7  = 'f_Ell   '           / [:j] Note on Ell (13) (link)                   TBCOL8  =                   45 / UCD=phys.mass double: ........ offset=44       TFORM8  = 'F10.5   '           / Fortran Format                                 TTYPE8  = 'Mass    '           / ? Mass of the galaxy in stellar masses (19)    TUNIT8  = '10+6Msun'           / 10+6 solar mass                                TBCOL9  =                   56 / UCD=phys.mass float: ......... offset=55       TFORM9  = 'F6.2    '           / Fortran Format                                 TTYPE9  = 'Mdyn    '           / ? Dynamical mass within the observed half-light                                 radius M_dyn_(<=r_h_) (see Section 5 for                                        further explanations)                          TUNIT9  = '10+6Msun'           / 10+6 solar mass                                END                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
+17 45 40.0	-29 00 28	    	      	 	     	 	          	      
+07 12 35.0	-27 40 00	  13	      	 	 0.80	:	  49.00000	      
+18 55 19.5	-30 32 43	  18	342.00	 	 0.64	 	  21.00000	190.00
+10 07 04.0	+16 04 55	  28	  4.40	 	 0.48	 	   0.00034	  0.26
+08 51 30.0	+63 07 48	  38	 16.00	 	 0.63	 	   0.00410	  3.90
+13 58 00.0	+12 51 00	  40	  4.20	 	 0.21	 	   0.00100	  3.30
+02 19 16.0	+20 10 31	  41	  3.40	 	 0.15	 	   0.00086	  0.23
+10 49 21.0	+51 03 00	  43	  2.30	 	 0.47	 	   0.00100	  0.27
+12 26 59.0	+23 54 15	  45	  6.00	 	 0.38	 	   0.00370	  0.94
+13 57 12.0	+26 48 00	  46	      	 	 0.50	:	   0.01700	      
+05 23 34.5	-69 45 22	  50	      	 	     	 	1500.00000	      
+00 52 44.8	-72 49 43	  61	      	 	     	 	 460.00000	      
+14 00 06.0	+14 30 00	  64	 12.60	 	 0.39	 	   0.02900	  0.81
+17 20 12.4	+57 54 55	  76	 10.00	 	 0.31	 	   0.29000	 11.00
+15 09 08.5	+67 13 21	  78	  8.20	 	 0.56	 	   0.29000	  9.50
+01 00 09.4	-33 42 33	  86	 11.30	 	 0.32	 	   2.30000	 14.00
+10 13 03.0	-01 36 53	  89	 27.80	 	 0.35	 	   0.44000	 25.00
+10 34 52.8	+51 55 12	 102	 11.30	 	 0.80	 	   0.01400	 11.00
+06 41 36.7	-50 57 58	 107	  8.20	 	 0.33	 	   0.38000	  6.30
+16 31 02.0	+12 47 30	 126	  8.60	 	 0.68	 	   0.03700	  2.60
+02 39 59.3	-34 26 57	 149	 16.60	 	 0.30	 	  20.00000	 56.00
+11 32 57.0	-00 32 00	 155	  4.60	 	 0.49	 	   0.01900	  1.30
+12 57 10.0	+34 19 15	 161	  1.60	 	 0.52	 	   0.00790	  0.91
+11 31 09.6	+02 13 12	 179	  2.60	 	 0.50	 	   0.01100	  1.10
+22 58 31.0	+05 57 09	 181	  1.10	 	 0.40	 	   0.00860	      
+13 28 03.5	+33 33 21	 218	  8.90	 	 0.39	 	   0.23000	 19.00
+11 13 28.8	+22 09 06	 236	  2.60	 	 0.13	 	   0.74000	  4.60
+10 08 28.1	+12 18 23	 258	  3.40	 	 0.21	 	   5.50000	 12.00
+00 42 44.3	+41 16 09	 787	      	 	     	 	          	      
+00 42 41.8	+40 51 55	 809	  0.47	 	 0.25	 	 320.00000	540.00
+00 52 53.0	+43 11 45	 770	  2.50	 	     	 	   0.15000	  6.50
+00 40 22.1	+41 41 07	 828	  2.46	 	 0.43	 	 330.00000	420.00
+00 37 07.0	+44 19 20	 798	  1.24	 	 0.27	 	   0.26000	      
+00 45 39.8	+38 02 28	 749	  3.10	 	 0.22	 	   3.90000	 44.00
+00 37 27.1	+45 23 13	 832	  1.80	 	 0.40	 	   0.12000	      
+00 35 33.8	+36 29 52	 752	  2.20	 	 0.52	 	   0.83000	  6.10
+00 30 08.9	+46 51 07	 817	  3.00	 	 0.25	 	   0.68000	      
+00 23 45.6	+47 54 58	 766	  1.00	 	 0.25	 	   0.06000	      
+00 46 20.0	+33 48 05	 763	  0.71	 	     	 	   0.04900	  1.90
+01 10 17.1	+47 37 41	 778	  1.40	 	 0.18	 	   0.39000	      
+01 06 33.7	+44 48 16	 706	  1.30	 	 0.44	 	   0.09600	  2.30
+01 29 21.8	+38 43 08	 774	  4.60	 	 0.40	 	   1.10000	      
+00 07 30.7	+35 07 56	 805	  0.53	 	 0.30	 	   0.02900	      
+00 47 27.0	+34 22 29	 875	  1.20	 	     	 	   0.03100	  1.20
+00 33 12.1	+48 30 32	 680	  3.17	:	 0.41	 	  62.00000	 93.00
+23 54 47.7	+42 28 15	 862	  3.50	 	 0.20	 	   0.76000	      
+00 51 35.0	+29 41 49	 739	  1.70	 	 0.31	 	   0.20000	  6.10
+01 14 18.7	+38 07 03	 636	  1.21	 	 0.00	:	   0.49000	 16.00
+00 51 51.0	+33 00 16	 916	  0.78	 	     	 	   0.04100	 11.00
+01 16 29.8	+33 25 09	 657	  6.20	 	 0.20	 	   7.60000	 36.00
+00 38 58.0	+48 20 15	 621	  2.55	:	 0.15	 	  68.00000	150.00
+23 58 55.6	+30 45 20	 734	  1.70	 	 0.35	 	   0.18000	      
+00 19 32.1	+35 02 37	 936	  6.20	 	 0.17	 	   0.43000	      
+01 33 50.9	+30 39 37	 814	      	 	 0.41	 	2900.00000	      
+01 18 30.0	+46 21 58	 605	  2.10	 	 0.25	 	   0.09300	      
+23 26 31.7	+50 40 33	 765	  3.50	 	 0.13	 	   9.50000	 42.00
+01 27 40.0	+28 05 25	 799	  0.94	 	 0.56	 	   0.03400	      
+00 20 17.3	+59 18 14	 798	  2.65	:	 0.19	 	  86.00000	      
+01 03 55.0	+21 53 06	 773	  2.10	 	 0.20	:	   0.96000	 17.00
+23 51 46.3	+24 34 57	 785	  2.30	 	 0.41	 	   2.80000	      
+00 59 29.8	+32 22 36	 529	  0.89	 	 0.00	:	   0.41000	  7.90
+22 32 41.2	+31 12 58	 661	  1.11	 	 0.34	 	   0.21000	      
+01 04 47.8	+02 07 04	 758	  6.81	:	 0.11	 	 100.00000	      
+01 51 06.3	-44 26 41	 415	  3.76	:	 0.40	j	   0.77000	      
+19 44 56.6	-14 47 21	 452	  2.65	:	 0.24	 	 100.00000	      
+00 26 11.0	-11 02 40	 756	  3.20	 	 0.33	 	   2.60000	120.00
+23 28 36.3	+14 44 35	 921	  2.10	:	 0.46	 	   6.61000	      
+09 34 53.4	+17 03 05	 422	  0.99	 	 0.00	:	   0.14000	  3.90
+00 01 58.2	-15 27 39	 932	  7.78	:	 0.65	 	  43.00000	380.00
+09 59 26.5	+30 44 47	 803	  2.15	:	 0.40	 	   6.00000	 25.00
+00 02 14.5	+45 05 20	1358	  0.92	 	     	 	   0.63000	      
+20 46 51.8	-12 50 53	1066	  1.47	 	 0.50	 	   1.60000	      
+22 41 49.6	-64 25 10	 882	  1.10	 	 0.48	 	   0.56000	 41.00
+19 29 59.0	-17 40 41	1059	  0.91	 	 0.50	:	   3.50000	      
+09 16 02.2	+52 50 24	1367	  0.41	 	 0.44	 	   8.30000	      
+10 03 06.9	-26 09 35	1301	  4.30	 	 0.82	 	  76.00000	      
+10 00 00.1	+05 19 56	1430	  1.06	 	 0.31	 	  52.00000	      
+10 04 04.1	-27 19 52	1350	  1.20	 	 0.40	 	   1.30000	      
+10 11 00.8	-04 41 34	1435	  2.47	:	 0.17	 	  44.00000	      
+07 00 29.3	-04 12 30	1682	      	 	     	 	          	      
+07 00 29.3	-04 12 30	1682	      	 	     	 	          	      
+16 13 48.0	+54 22 16	1904	  0.40	:	 0.41	 	   1.40000	      
+00 15 31.6	-32 10 48	1922	  0.50	 	 0.37	:	   3.50000	      
+00 14 53.6	-39 11 48	1930	  5.16	:	 0.83	 	2200.00000	      
+00 26 33.4	-41 51 19	2030	  0.42	 	 0.51	:	   2.70000	      
+00 54 53.5	-37 41 04	2079	  5.00	:	 0.29	 	2100.00000	      
+22 02 41.5	-51 17 47	1945	  0.97	:	 0.38	 	 270.00000	      
+23 45 34.0	+38 43 04	2526	  0.64	 	 0.41	 	   4.50000	      
+23 26 27.5	-32 23 20	2205	  0.90	 	 0.10	 	  17.00000	      
+14 07 10.5	+35 03 37	2187	  0.36	 	 0.05	 	   0.54000	      
+12 58 40.4	+14 13 03	2177	  0.32	 	 0.20	 	   6.40000	      
+14 15 56.5	+23 03 19	2288	  0.64	 	 0.40	 	   7.80000	      
+13 30 44.4	+54 54 36	2583	  0.42	 	 0.45	 	  19.00000	      
+12 18 46.0	-79 43 34	2266	  2.01	:	 0.52	 	  62.00000	      
+12 27 40.9	+43 29 44	2584	  1.04	 	 0.41	 	  47.00000	      
+03 59 48.3	+67 08 19	2971	  0.94	:	 0.32	 	  16.00000	      
+11 50 53.0	+38 52 49	2596	  0.90	 	 0.29	 	  16.00000	      
+17 47 08.8	-64 38 30	2436	  0.48	 	 0.27	 	 190.00000	      
+14 24 43.4	+44 31 33	2793	  0.64	 	 0.10	 	  51.00000	      
+13 54 33.5	+04 14 35	2578	  0.28	 	 0.39	 	   0.82000	      
+12 12 09.1	+36 10 09	2860	  0.45	 	 0.30	 	  37.00000	      
+12 14 57.9	+36 13 08	2953	  0.70	 	 0.00	 	   2.10000	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  

@@ -1,3 +1,5 @@
+import sys
+
 import numpy as np
 
 import matplotlib
@@ -7,11 +9,14 @@ sns.set_style("ticks")
 
 from galaxies import get_data, get_dist_bins, get_mass_bins, get_dndmdv
 
-dataset = "GAMA"
+if len(sys.argv) == 2:
+    dataset = sys.argv[1]
+else:
+    dataset = "dwarfGal"
 
 tot_mass, distance = get_data(dataset=dataset)
 dist_bin_edges, dist_bins, labels = get_dist_bins(distance, dataset=dataset)
-M_bin_edges, M_bin_centers = get_mass_bins()
+M_bin_edges, M_bin_centers = get_mass_bins(dataset=dataset)
 
 fig_dist = plt.figure()
 ax_dist = fig_dist.add_subplot(111)
@@ -21,8 +26,9 @@ ax_mass = fig_mass.add_subplot(111)
 
 colors = sns.color_palette("Set2", len(dist_bins))
 
-ax_dist.hist([distance[(distance > dist_bin[0]) * (distance <= dist_bin[1])] for dist_bin in dist_bins[1:]],
-                bins=dist_bin_edges, histtype="step", stacked=True, color=colors[1:], label=labels[1:])
+if dataset in ["SDSS", "GAMA"]:
+    ax_dist.hist([distance[(distance > dist_bin[0]) * (distance <= dist_bin[1])] for dist_bin in dist_bins[1:]],
+                    bins=dist_bin_edges, histtype="step", stacked=True, color=colors[1:], label=labels[1:])
 
 for dbi, dist_bin in enumerate(dist_bins):
     dist_mask = (distance > dist_bin[0]) * (distance <= dist_bin[1])

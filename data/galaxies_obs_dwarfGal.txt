@@ -1,0 +1,11 @@
+# M (M_s) 	 dN/dMdV (M_s^-1 pc^-3)
+2.889e+00 	 -inf 	
+3.667e+00 	 -inf 	
+4.444e+00 	 -inf 	
+5.222e+00 	 -inf 	
+6.000e+00 	 -inf 	
+6.778e+00 	 -inf 	
+7.556e+00 	 -inf 	
+8.333e+00 	 -inf 	
+9.111e+00 	 -inf 	
+# /Galaxies (SDSS)/'#2ecc71'/'-'/

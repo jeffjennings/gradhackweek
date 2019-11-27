@@ -73,6 +73,13 @@ mplan, ndplan = np.genfromtxt(pwd + '/../data/planets_obs.txt').T
 #ndplan *= Ostar * mass_density_Mspc3 / rho_star
 ax1.plot(mplan, ndplan, c='#F0E054', ls='-', label='Planets')
 
+## Obs: white dwarfs
+mwds,ndwds = np.genfromtxt(pwd + '/../data/WD_Number_Density.csv').T
+ax1.plot(mwds,ndwds, c='mediumpurple', ls = '-', label = 'White Dwarfs')
+
+## Obs: Neutron Stars 
+mns,ndns = np.genfromtxt(pwd + '/../data/NS_Number_Density.csv').T
+ax1.plot(mns,ndns, c='violet', ls = '-', label = 'Neutron Stars')
 
 ## Obs: local group galaxies
 mgal_exp, ndgal = np.genfromtxt(pwd + '/../data/galaxies_obs_dwarfGal.txt').T

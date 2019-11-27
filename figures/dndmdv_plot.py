@@ -75,7 +75,7 @@ ax1.plot(mplan, ndplan, c='#F0E054', ls='-', label='Planets')
 
 
 ## Obs: galaxies
-mgal_exp, ndgal = np.genfromtxt(pwd + '/../data/galaxies_obs.txt').T
+mgal_exp, ndgal = np.genfromtxt(pwd + '/../data/galaxies_obs_SDSS.txt').T
 mgal = 10**mgal_exp
 
 idxs = np.nonzero(ndgal)
@@ -84,8 +84,7 @@ ndgal_new = ndgal[idxs]
 
 ax1.plot(mgal_new, ndgal_new, c='#CC2EC7', ls='-', label='Galaxies, SDSS')
 
-
-mgal_exp, ndgal = np.genfromtxt(pwd + '/../data/GAMAgalaxies_obs.txt').T
+mgal_exp, ndgal = np.genfromtxt(pwd + '/../data/galaxies_obs_GAMA.txt').T
 mgal = 10**mgal_exp
 
 idxs = np.nonzero(ndgal)

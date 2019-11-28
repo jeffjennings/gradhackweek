@@ -55,7 +55,7 @@ bins_new = bins[idxs]
 dmdndv_new = dmdndv[idxs]
 dndv_new = dndv[idxs]
 
-msample = np.sum(m) * jup_to_sun # update to only include masses that are in the final sample
+msample = np.sum(m) * jup_to_sun # TODO: update to only include masses that are in the final sample
 
 Ostar = 0.003
 mass_density_gcm3 = 9.9e-30
@@ -64,7 +64,6 @@ fplanet = 1.40522 * jup_to_sun  # mass fraction of planets in solar system
 norm = fplanet * Ostar * mass_density_Mspc3 / (msample / cut_dist**3)
 dmdndv_global = dmdndv_new * norm
 dndv_global = dndv_new * norm
-
 
 
 plt.figure()

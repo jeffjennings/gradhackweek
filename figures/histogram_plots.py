@@ -2,6 +2,8 @@ import matplotlib.pyplot as plt
 from matplotlib.gridspec import GridSpec
 import os
 pwd = os.getcwd()
+import sys
+sys.path.insert(0,'../data_generation')
 
 from plot_funcs import *
 
@@ -25,52 +27,34 @@ cs = ['#e6194B', '#3cb44b', '#ffe119', '#4363d8', '#f58231', '#911eb4', '#42d4f4
 
 lss = np.repeat('-', len(fns))
 
+xlab, ylab = [r'Mass [M$_\odot]$', r'Number density, $dN / dV$ [pc$^{-3}]$']
+xlo, xhi = 1e-6, 1e16
+ylo, yhi = 1e-33, 1e0
+
+
 gs = GridSpec(1, 1, bottom=.12, top=.95, left=.1, right=.98, hspace=0)
 smallplot = True
 if smallplot: fig = plt.figure(figsize=(10, 4))
 else: fig = plt.figure(figsize=(11.69, 8.27))
 ax1 = fig.add_subplot(gs[0])
 
-xlo, xhi = 1e-6, 1e16
-ylo, yhi = 1e-33, 1e0
-M_lim = np.array([xlo, xhi])
-
 ax1.set_xscale('log')
 ax1.set_yscale('log')
 ax1.set_xlim(xlo, xhi)
 ax1.set_ylim(ylo, yhi)
-ax1.set_xlabel(r'Mass [M$_\odot]$')
-ax1.set_ylabel(r'Number density, $dN / dV$ [pc$^{-3}]$')
+ax1.set_xlabel(xlab)
+ax1.set_ylabel(ylab)
 
 
 ## background M^{-1} contours
 plotBackground(ax1, xhi*1e12, ylo, '#011627')
 
 
-## Planck cosmology limits
-Omh2 = 0.143
-Och2 = 0.12
-Obh2 = 0.0237
-H0 = 67.27
-Ostar = 0.003
-
-mass_density_gcm3 = 9.9e-30
-mass_density_Mspc3 = mass_density_gcm3 * (100*3e16)**3 / (1000*2e30)
-
-matter = (mass_density_Mspc3 * Omh2 / (H0*0.01)**2) / M_lim
-baryons = (mass_density_Mspc3 * Obh2 / (H0*0.01)**2) / M_lim
-cdm = (mass_density_Mspc3 * Och2 / (H0*0.01)**2) / M_lim
-
+## theoretical limits
+from theoretical_constraints import M_lim, baryons, cdm, matter, nmin, ncollapse
 ax1.plot(M_lim, baryons, c='#3498DB', ls='--', label='Baryons')
 ax1.plot(M_lim, cdm,  c='#2ECC71', ls='--', label='Dark matter')
 ax1.plot(M_lim, matter, c='#8E44AD', ls=':', label='Baryons + DM')
-
-
-## additional theoretical limits
-nmin = 1e-32
-ns = 2.6e38 / M_lim**3
-nobs = 6.0953e-81 * M_lim**-1.5
-ncollapse = 1.6e-7 / M_lim**2
 ax1.axhline(nmin, ls='--', c='#F39C12', label='Minimum')
 ax1.plot(M_lim, ncollapse / M_lim, ls='--', c='k', label='Self-collapse')
 

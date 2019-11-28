@@ -23,27 +23,22 @@ def makeCmap(hexColour, name, zeroColour='#FFFFFF'):
     cmap = mpl.colors.LinearSegmentedColormap(name, cdict)
     return cmap
 
-def plot_all(ax, fns, cuts, cs, lss, labs, pwrs):
-    for i in range(len(fns)):
-        print('plotting', fns[i])
-        bc, dndv, dndvdlm = load_data(fns[i])
-        if pwrs[i]:
-            bc = 10**bc
-        #plot_phys(ax, bc, dndv, cuts[i], cs[i], lss[i], labs[i])
-        plot_phys(ax, bc, dndvdlm, cuts[i], cs[i], lss[i], labs[i])
 
 def load_data(fn):
     try:
         bin_center, bin_width, dn_dv, dn_dv_dlogm = np.genfromtxt(fn).T
     except ValueError as e:
-        bin_center, dn_dv, dn_dv_dlogm = np.genfromtxt(fn).T
-    idxs = np.nonzero(dn_dv)
-    # TODO: use this: idxs = np.nonzero(dn_dv_dlogm)
+        try:
+            bin_center, dn_dv, dn_dv_dlogm = np.genfromtxt(fn).T
+        except ValueError as e2:
+            bin_center, dn_dv_dlogm = np.genfromtxt(fn).T
+    idxs = np.nonzero(dn_dv_dlogm)
     bin_center = bin_center[idxs]
-    dn_dv = dn_dv[idxs]
     dn_dv_dlogm = dn_dv_dlogm[idxs]
-    return bin_center, dn_dv, dn_dv_dlogm
+    return bin_center, dn_dv_dlogm
 
-def plot_phys(ax, m, nd, cut, c, ls, label):
-    if cut > 0: ax.plot(m, nd, c=c, ls=ls, alpha=0.3)
-    ax.plot(m[m > cut], nd[m > cut], c=c, ls=ls, label=label)
+def plot_hist(ax, fn, cut, c, ls, label, pwr=True):
+    x, y = load_data(fn)
+    if pwr: y = 10**y
+    if cut > 0: ax.plot(x, y, c=c, ls=ls, alpha=0.3)
+    ax.plot(x[x > cut], y[x > cut], c=c, ls=ls, label=label)

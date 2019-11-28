@@ -11,10 +11,13 @@ Omega_m = 0.3089
 h = 0.6774
 cosmo = FlatLambdaCDM(H0=h*100.0, Om0=Omega_m)
 
-if len(sys.argv) == 2:
-    dataset = sys.argv[1]
+if __name__ == '__main__':
+    if len(sys.argv) > 1:
+        datasets = [*sys.argv[1:]]
+    else:
+        datasets = ["SDSS", "GAMA", "dwarfGal"]
 else:
-    dataset = "SDSS"
+    datasets = []
 
 def get_data(dataset="SDSS"):
     if dataset == "SDSS":
@@ -166,34 +169,37 @@ def get_dndmdv(tot_mass, M_bin_edges, distance, dist_bin, z_bin, z=None, dataset
 
     return (dNdM, dNdM_err, dNdV, dNdV_err, dNdMdV, dNdMdV_err)
 
-tot_mass, distance, z = get_data(dataset=dataset)
 
-# plt.hist(tot_mass, bins=50)
 
-min_mass = np.min(tot_mass)
-max_mass = np.max(tot_mass)
-# print("Mass range:", min_mass, max_mass)
+for dataset in datasets:
+    tot_mass, distance, z = get_data(dataset=dataset)
 
-dist_bin_edges, dist_bins, z_bins, labels = get_dist_bins(distance, z=z, dataset=dataset)
+    # plt.hist(tot_mass, bins=50)
 
-M_bin_edges, M_bin_centers = get_mass_bins(dataset=dataset)
+    min_mass = np.min(tot_mass)
+    max_mass = np.max(tot_mass)
+    # print("Mass range:", min_mass, max_mass)
 
-if dataset == "dwarfGal":
-    dNdM, dNdM_err, dNdV, dNdV_err, dNdMdV, dNdMdV_err = get_dndmdv(tot_mass, M_bin_edges, distance,
-                                            z=z, dist_bin=(-np.inf, np.inf), z_bin=(-np.inf, np.inf), dataset=dataset)
-elif dataset in ["SDSS", "GAMA"]:
-    dNdV = np.tile(-np.inf, M_bin_centers.size)
-    dNdMdV = np.tile(-np.inf, M_bin_centers.size)
+    dist_bin_edges, dist_bins, z_bins, labels = get_dist_bins(distance, z=z, dataset=dataset)
 
-    for dbi, dist_bin in enumerate(dist_bins[1:]):
-        dNdM, dNdM_err, dNdV, dNdV_err, dNdMdV_bin, dNdMdV_err = get_dndmdv(tot_mass, M_bin_edges, distance,
-                                                                        dist_bin, z_bins[1+dbi], z=z, dataset=dataset)
+    M_bin_edges, M_bin_centers = get_mass_bins(dataset=dataset)
 
-        dNdV = np.where(dNdV_err > dNdV, dNdV_err, dNdV)
-        dNdMdV = np.where(dNdMdV_bin > dNdMdV, dNdMdV_bin, dNdMdV)
+    if dataset == "dwarfGal":
+        dNdM, dNdM_err, dNdV, dNdV_err, dNdMdV, dNdMdV_err = get_dndmdv(tot_mass, M_bin_edges, distance,
+                                                z=z, dist_bin=(-np.inf, np.inf), z_bin=(-np.inf, np.inf), dataset=dataset)
+    elif dataset in ["SDSS", "GAMA"]:
+        dNdV_final = np.tile(-np.inf, M_bin_centers.size)
+        dNdMdV_final = np.tile(-np.inf, M_bin_centers.size)
 
-data = np.array([M_bin_centers, (M_bin_edges[1:]-M_bin_edges[:-1]), dNdV, dNdMdV])
+        for dbi, dist_bin in enumerate(dist_bins[1:]):
+            dNdM, dNdM_err, dNdV, dNdV_err, dNdMdV, dNdMdV_err = get_dndmdv(tot_mass, M_bin_edges, distance,
+                                                                            dist_bin, z_bins[1+dbi], z=z, dataset=dataset)
 
-footerText = "/Galaxies (SDSS)/'#2ecc71'/'-'/"
-np.savetxt("../data/galaxies_obs_" + dataset + ".txt", data.T,
-            fmt='%1.3e \t', header="M (M_s) \t dlog(M/M_s) \t dN/dV (pc^-3) \t dN/dMdV (M_s^-1 pc^-3)", footer=footerText)
+            dNdV_final = np.where(dNdV > dNdV_final, dNdV, dNdV_final)
+            dNdMdV_final = np.where(dNdMdV > dNdMdV_final, dNdMdV, dNdMdV_final)
+
+    data = np.array([M_bin_centers, (M_bin_edges[1:]-M_bin_edges[:-1]), dNdV, dNdMdV])
+
+    footerText = "/Galaxies (SDSS)/'#2ecc71'/'-'/"
+    np.savetxt("../data/galaxies_obs_" + dataset + ".txt", data.T,
+                fmt='%1.3e \t', header="M (M_s) \t dlog(M/M_s) \t dN/dV (pc^-3) \t dN/dMdV (M_s^-1 pc^-3)", footer=footerText)

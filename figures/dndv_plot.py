@@ -9,9 +9,9 @@ import os
 pwd = os.getcwd()
 import itertools
 
-jeff = False
+jeff = False # False if you're not Jeff
 
-## make background M^-2 contours
+## make background M^-1 contours
 def plotBackground(ax, x0, y0, colour):
     cmap=makeCmap(colour,'backgroundColour')
     yMin=y0*np.power(x0/1e20,1)
@@ -75,6 +75,7 @@ matter = (mass_density_Mspc3 * Omh2 / (H0*0.01)**2) / M_all
 baryons = (mass_density_Mspc3 * Obh2 / (H0*0.01)**2) / M_all
 cdm = (mass_density_Mspc3 * Och2 / (H0*0.01)**2) / M_all
 
+
 ## Obs: planets
 mplan, ndplan, nplan = np.genfromtxt(pwd + '/../data/planets_obs.txt').T
 #rho_star = .0594 # mass density of stars in local volume of planet sample. https://arxiv.org/abs/1807.04592.
@@ -83,6 +84,7 @@ ax1.plot(mplan, nplan, c='#8C13DA', ls='-', label='Planets')
 
 mplan_tGK, ndplan_tGK, nplan_tGK = np.genfromtxt(pwd + '/../data/transitingPlanets_GK.txt').T
 ax1.plot(mplan_tGK, nplan_tGK, c='#F77F00',ls='-',label='Transiting GK planets')
+
 
 ## Obs: white dwarfs
 mwds,ndwds = np.genfromtxt(pwd + '/../data/WD_Number_Density.csv').T

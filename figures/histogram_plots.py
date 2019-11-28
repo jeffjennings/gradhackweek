@@ -9,16 +9,21 @@ from plot_funcs import *
 
 fig_savename = pwd + '/dn_dv_dlogm.png'
 
-fns = ['planets_obs.txt', 'WD_Number_Density.csv', 'NS_Number_Density.csv', \
+# 'WD_Number_Density.csv', 'NS_Number_Density.csv', \
+fns = ['planets_obs.txt', \
        'galaxies_obs_dwarfGal.txt', 'galaxies_obs_SDSS.txt', 'galaxies_obs_GAMA.txt', \
-       'dNbydMdV_Mstar_TNG300.txt', 'dNbydMdV_Mstar_TNG100.txt', 'dNbydMdV_Mstar_EAGLE', \
-       'dNbydMdV_Mstar_EAGLE25.txt', ]
+       'illustris/BigPlotData_TNG100_mstar.txt', 'illustris/BigPlotData_TNG100_mstar.txt', \
+       'eagle/BigPlotData_EAGLE_mstar.txt', 'eagle/BigPlotData_EAGLE25_mstar.txt']
+
 fns = [pwd + '/../data/' + x for x in fns]
 
-cuts = [0, 0, 0, 0, 1e7, 1e7, 2e7, 2.3e6, 1e7, 1e6] # completeness cuts in x-range
+cuts = [0, 0, 1e7, 1e7, 2e7, 2.3e6, 1e7, 1e6] # completeness cuts in x-range
 
-labs = ['Planets', 'White dwarfs', 'Neutron stars', 'Dwarf galaxies', 'Galaxies', \
-        'SDSS', 'Galaxies, GAMA', 'Galaxis, Illustris TNG300', 'Galaxis, Illustris TNG100', \
+pwrs = [False, True, True, True, True, True, True, True] # if the mass is given as 'pwr' in 10**pwr
+
+#'White dwarfs', 'Neutron stars',
+labs = ['Planets', 'Dwarf galaxies', 'Galaxies, SDSS', \
+        'Galaxies, GAMA', 'Galaxis, Illustris TNG300', 'Galaxis, Illustris TNG100', \
         'Galaxies, EAGLE100', 'Galaxies, EAGLE25']
 
 cs = ['#e6194B', '#3cb44b', '#ffe119', '#4363d8', '#f58231', '#911eb4', '#42d4f4', \
@@ -27,7 +32,7 @@ cs = ['#e6194B', '#3cb44b', '#ffe119', '#4363d8', '#f58231', '#911eb4', '#42d4f4
 
 lss = np.repeat('-', len(fns))
 
-xlab, ylab = [r'Mass [M$_\odot]$', r'Number density, $dN / dV$ [pc$^{-3}]$']
+xlab, ylab = [r'Mass [M$_\odot]$', r'Number density, dN / dV d log$_{10}$(M) [pc$^{-3}]$']
 xlo, xhi = 1e-6, 1e16
 ylo, yhi = 1e-33, 1e0
 
@@ -56,11 +61,11 @@ ax1.plot(M_lim, baryons, c='#3498DB', ls='--', label='Baryons')
 ax1.plot(M_lim, cdm,  c='#2ECC71', ls='--', label='Dark matter')
 ax1.plot(M_lim, matter, c='#8E44AD', ls=':', label='Baryons + DM')
 ax1.axhline(nmin, ls='--', c='#F39C12', label='Minimum')
-ax1.plot(M_lim, ncollapse / M_lim, ls='--', c='k', label='Self-collapse')
+#ax1.plot(M_lim, ncollapse / M_lim, ls='--', c='k', label='Self-collapse')
 
 
 ## observations and simulations
-plot_all(ax1, fns, cuts, cs, lss, labs)
+plot_all(ax1, fns, cuts, cs, lss, labs, pwrs)
 
 
 handles, labels = ax1.get_legend_handles_labels()

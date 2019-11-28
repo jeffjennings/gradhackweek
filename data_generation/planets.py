@@ -52,6 +52,8 @@ dndv = hist / cut_dist**3
 
 idxs = np.nonzero(dmdndv)
 bins_new = bins[idxs]
+bin_widths_new = np.diff(bins_new)
+bin_widths_new = np.append(bin_widths_new, 0)
 dmdndv_new = dmdndv[idxs]
 dndv_new = dndv[idxs]
 
@@ -76,7 +78,7 @@ plt.xlabel(r'Mass [M$_\odot$]')
 plt.ylabel(r'Number density $dN / (dM dV)$ [M$_\odot^{-1}$ pc$^{-3}]$')
 plt.tight_layout()
 
-np.savetxt(pwd + '/../data/planets_obs.txt', np.array([bins_new * jup_to_sun, dmdndv_global, dndv_global]).T, header=r"Planets.   M [M_\odot] 	 dN / (dM dV) [M_\odot^-1 pc^-3]     dN / dV [pc^-3]")
+np.savetxt(pwd + '/../data/planets_obs.txt', np.array([bins_new * jup_to_sun, bin_widths_new * jup_to_sun, dndv_global, dmdndv_global]).T, header=r"Planets.   Bin center, log10(M [M_\odot]) 	 Bin width, log10(M [M_\odot])     dN / dV [pc^-3]     dN / (dV dlogM) [pc^-3 log10(M / M\odot)]")
 
 # 1) normalize bin counts by dividing by bin width
 # 2) Need distance out to which most these planets come from (distance out to which sample is ~complete)

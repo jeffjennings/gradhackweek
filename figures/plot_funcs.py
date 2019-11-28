@@ -1,5 +1,7 @@
 import matplotlib as mpl
 import numpy as np
+import os
+pwd = os.getcwd()
 
 def plotBackground(ax, x0, y0, colour):
     cmap=makeCmap(colour,'backgroundColour')
@@ -25,20 +27,14 @@ def makeCmap(hexColour, name, zeroColour='#FFFFFF'):
 
 
 def load_data(fn):
-    try:
-        bin_center, bin_width, dn_dv, dn_dv_dlogm = np.genfromtxt(fn).T
-    except ValueError as e:
-        try:
-            bin_center, dn_dv, dn_dv_dlogm = np.genfromtxt(fn).T
-        except ValueError as e2:
-            bin_center, dn_dv_dlogm = np.genfromtxt(fn).T
-    idxs = np.nonzero(dn_dv_dlogm)
-    bin_center = bin_center[idxs]
-    dn_dv_dlogm = dn_dv_dlogm[idxs]
-    return bin_center, dn_dv_dlogm
+    x, xw, _, y = np.genfromtxt(pwd + '/../data/' + fn).T
+    idxs = np.nonzero(y)
+    x = x[idxs]
+    y = y[idxs]
+    return x, y
 
-def plot_hist(ax, fn, cut, c, ls, label, pwr=True):
-    x, y = load_data(fn)
-    if pwr: y = 10**y
+def plot_hist(ax, data):
+    label, fn, cut, c, ls, x, y = data
+    x = 10**x
     if cut > 0: ax.plot(x, y, c=c, ls=ls, alpha=0.3)
     ax.plot(x[x > cut], y[x > cut], c=c, ls=ls, label=label)

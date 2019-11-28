@@ -57,8 +57,8 @@ ax1.plot(M_lim, baryons, c='#3498DB', ls='--', label='Baryons')
 ax1.plot(M_lim, cdm,  c='#2ECC71', ls='--', label='Dark matter')
 ax1.plot(M_lim, matter, c='#8E44AD', ls=':', label='Baryons + DM')
 ax1.axhline(nmin, ls='--', c='#F39C12', label='Minimum')
-#ax1.plot(M_lim, ncollapse / M_lim, ls='--', c='k', label='Self-collapse')
-ax1.plot(m_nps[:-1], nps, ls='--', c='g', label='P-S')
+ax1.plot(M_lim, ncollapse / M_lim, ls='--', c='k', label='Self-collapse')
+ax1.plot(m_nps[:-1], nps, ls='--', c='g', label='Press–Schechter')
 
 
 ## observations and simulations

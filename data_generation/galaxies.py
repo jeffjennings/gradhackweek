@@ -110,7 +110,7 @@ def get_mass_bins(dataset="SDSS"):
 
     return (M_bin_edges, M_bin_centers)
 
-def get_dndmdv(tot_mass, M_bin_edges, M_bin_centers, distance, dist_bin, z_bin, z=None, dataset="SDSS"):
+def get_dndmdv(tot_mass, M_bin_edges, distance, dist_bin, z_bin, z=None, dataset="SDSS"):
     dist_mask = (distance > dist_bin[0]) * (distance <= dist_bin[1])
     argmax_distance = np.argmax(distance[dist_mask])
     max_distance = distance[dist_mask][argmax_distance]
@@ -122,8 +122,9 @@ def get_dndmdv(tot_mass, M_bin_edges, M_bin_centers, distance, dist_bin, z_bin, 
 
     N_err = np.sqrt(N)
 
-    dNdM = N/10**(M_bin_centers)
-    dNdM_err = N_err/10**(M_bin_centers)
+    # Divide by the width of the mass bins (NB: now using bin width in log(M)!)
+    dNdM = N/(M_bin_edges[1:]-M_bin_edges[:-1])
+    dNdM_err = N_err/(M_bin_edges[1:]-M_bin_edges[:-1])
 
     if dataset == "SDSS":
         sky_fraction = 8032.0/(4.0*np.pi*(180.0/np.pi)**2) #8032.0 square degrees for SDSS
@@ -166,15 +167,15 @@ dist_bin_edges, dist_bins, z_bins, labels = get_dist_bins(distance, z=z, dataset
 M_bin_edges, M_bin_centers = get_mass_bins(dataset=dataset)
 
 if dataset == "dwarfGal":
-    dNdM, dNdM_err, dNdV, dNdV_err, dNdMdV, dNdMdV_err = get_dndmdv(tot_mass, M_bin_edges, M_bin_centers,
-                                            distance, z=z, dist_bin=(-np.inf, np.inf), z_bin=(-np.inf, np.inf), dataset=dataset)
+    dNdM, dNdM_err, dNdV, dNdV_err, dNdMdV, dNdMdV_err = get_dndmdv(tot_mass, M_bin_edges, distance,
+                                            z=z, dist_bin=(-np.inf, np.inf), z_bin=(-np.inf, np.inf), dataset=dataset)
 elif dataset in ["SDSS", "GAMA"]:
     dNdV = np.tile(-np.inf, M_bin_centers.size)
     dNdMdV = np.tile(-np.inf, M_bin_centers.size)
 
     for dbi, dist_bin in enumerate(dist_bins[1:]):
-        dNdM, dNdM_err, dNdV, dNdV_err, dNdMdV_bin, dNdMdV_err = get_dndmdv(tot_mass, M_bin_edges, M_bin_centers,
-                                                                        distance, dist_bin, z_bins[1+dbi], z=z, dataset=dataset)
+        dNdM, dNdM_err, dNdV, dNdV_err, dNdMdV_bin, dNdMdV_err = get_dndmdv(tot_mass, M_bin_edges, distance,
+                                                                        dist_bin, z_bins[1+dbi], z=z, dataset=dataset)
 
         dNdV = np.where(dNdV_err > dNdV, dNdV_err, dNdV)
         dNdMdV = np.where(dNdMdV_bin > dNdMdV, dNdMdV_bin, dNdMdV)

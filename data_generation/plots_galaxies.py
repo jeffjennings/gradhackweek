@@ -64,28 +64,39 @@ fig_mass.savefig("../figures/Mass_distribution_" + dataset + ".pdf", rasterized=
 fig_dndm = plt.figure()
 ax_dndm = fig_dndm.add_subplot(111)
 
+fig_dndv = plt.figure()
+ax_dndv = fig_dndv.add_subplot(111)
+
 fig_dndmdv = plt.figure()
 ax_dndmdv = fig_dndmdv.add_subplot(111)
 
 for dbi, dist_bin in enumerate(dist_bins):
-    dNdM, dNdM_err, dNdV, dNdV_err, dNdMdV, dNdMdV_err = get_dndmdv(tot_mass, M_bin_edges, M_bin_centers,
-                                                                distance, dist_bin, z_bins[dbi], z=z, dataset=dataset)
+    dNdM, dNdM_err, dNdV, dNdV_err, dNdMdV, dNdMdV_err = get_dndmdv(tot_mass, M_bin_edges, distance,
+                                                                dist_bin, z_bins[dbi], z=z, dataset=dataset)
 
     ax_dndm.errorbar(M_bin_centers, dNdM, yerr=dNdM_err, color=colors[dbi], label=labels[dbi])
+    ax_dndv.errorbar(M_bin_centers, dNdV, yerr=dNdV_err, color=colors[dbi], label=labels[dbi])
     ax_dndmdv.errorbar(M_bin_centers, dNdMdV, yerr=dNdMdV_err, color=colors[dbi], label=labels[dbi])
 
 ax_dndm.legend(loc="upper right")
 ax_dndm.set_yscale("log")
 
 ax_dndm.set_xlabel(r"Mass ($\mathrm{M_\odot}$)")
-ax_dndm.set_ylabel(r"Mass density ($\mathrm{M_\odot^{-1}}$)")
+ax_dndm.set_ylabel(r"Mass density ($\log \mathrm{M_\odot}^{-1}$)")
+
+ax_dndv.legend(loc="upper right")
+ax_dndv.set_yscale("log")
+
+ax_dndv.set_xlabel(r"Mass ($\mathrm{M_\odot}$)")
+ax_dndv.set_ylabel(r"Number density ($\mathrm{pc^{-3}}$)")
 
 ax_dndmdv.legend(loc="upper right")
 ax_dndmdv.set_yscale("log")
 
 ax_dndmdv.set_xlabel(r"Mass ($\mathrm{M_\odot}$)")
-ax_dndmdv.set_ylabel(r"Number density ($\mathrm{M_\odot^{-1} pc^{-3}}$)")
+ax_dndmdv.set_ylabel(r"Number density ($\log \mathrm{M_\odot}^{-1} \mathrm{pc^{-3}}$)")
 
 fig_dndm.savefig("../figures/Mass_density_" + dataset + ".pdf", rasterized=True, bbox_inches="tight", pad_inches=0.5)
-fig_dndmdv.savefig("../figures/Number_density_" + dataset + ".pdf", rasterized=True, bbox_inches="tight", pad_inches=0.5)
+fig_dndv.savefig("../figures/Number_density_" + dataset + ".pdf", rasterized=True, bbox_inches="tight", pad_inches=0.5)
+fig_dndmdv.savefig("../figures/Number_mass_density_" + dataset + ".pdf", rasterized=True, bbox_inches="tight", pad_inches=0.5)
 # plt.show()

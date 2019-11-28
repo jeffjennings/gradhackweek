@@ -1,0 +1,4 @@
+# PlanetstransitingGKstars.   M [M_\odot] 	 dN / (dM dV) [M_\odot^-1 pc^-3]     dN / dV [pc^-3]
+4.200e-05 	 1.606e+01 	 1.060e-03 	
+1.151e-02 	 8.165e-03 	 1.876e-04 	
+1.450e-01 	 3.657e-04 	 1.060e-04 	

@@ -48,10 +48,12 @@ plt.ylabel('N')
 dmdn = hist / (np.diff(bin_edges) * jup_to_sun)
 cut_dist = 1000 # [pc]
 dmdndv = dmdn / cut_dist**3
+dndv = hist / cut_dist**3
 
 idxs = np.nonzero(dmdndv)
 bins_new = bins[idxs]
 dmdndv_new = dmdndv[idxs]
+dndv_new = dndv[idxs]
 
 msample = np.sum(m) * jup_to_sun # update to only include masses that are in the final sample
 
@@ -61,6 +63,9 @@ mass_density_Mspc3 = mass_density_gcm3 * (100*3e16)**3 / (1000*2e30)
 fplanet = 1.40522 * jup_to_sun  # mass fraction of planets in solar system
 norm = fplanet * Ostar * mass_density_Mspc3 / (msample / cut_dist**3)
 dmdndv_global = dmdndv_new * norm
+dndv_global = dndv_new * norm
+
+
 
 plt.figure()
 plt.plot(bins_new * jup_to_sun, dmdndv_new, '-')
@@ -72,7 +77,7 @@ plt.xlabel(r'Mass [M$_\odot$]')
 plt.ylabel(r'Number density $dN / (dM dV)$ [M$_\odot^{-1}$ pc$^{-3}]$')
 plt.tight_layout()
 
-np.savetxt(pwd + '/../data/planets_obs.txt', np.array([bins_new * jup_to_sun, dmdndv_new]).T, header=r"Planets.   M [M_\odot] 	 dN / (dM dV) [M_\odot^-1 pc^-3]")
+np.savetxt(pwd + '/../data/planets_obs.txt', np.array([bins_new * jup_to_sun, dmdndv_global, dndv_global]).T, header=r"Planets.   M [M_\odot] 	 dN / (dM dV) [M_\odot^-1 pc^-3]     dN / dV [pc^-3]")
 
 # 1) normalize bin counts by dividing by bin width
 # 2) Need distance out to which most these planets come from (distance out to which sample is ~complete)

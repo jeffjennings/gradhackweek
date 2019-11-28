@@ -183,6 +183,8 @@ for ii in range(3):
     else:
         ax1.plot(Mbins[ii:ii+2], imf, c='#54F0F0', ls='-', label='Stellar IMF')
 
+ndstar_made = np.loadtxt(pwd + '/../data/dNdVdM_M_MADE_stars.csv', delimiter=', ').T
+ax1.plot(ndstar_made[0,:], ndstar_made[1,:], c='#274B83', ls='-', label=r'Stellar $\mathrm{M}>\mathrm{M}_\odot$')
 
 ## Theory: limits
 nmin = 1e-32

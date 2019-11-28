@@ -29,7 +29,9 @@ def get_data(dataset="SDSS"):
         # petroR50_r = sdssdr7[:, 6]
         # R_hlr = sdssdr7[:, 7]
     elif dataset == "GAMA":
-        gamaData = fits.open('../data/GAMA.fits')[1].data
+        # gamaData = fits.open('../data/GAMA.fits')[1].data
+        # tot_mass = gamaData['logmstar'] # log(M) with M in M_sun
+        gamaData = fits.open('../data/GAMA_massradii.fits')[1].data
         tot_mass = gamaData['logmstar'] # log(M) with M in M_sun
         z = gamaData['Z'] # redshift
 

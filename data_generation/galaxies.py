@@ -135,6 +135,16 @@ def get_dndmdv(tot_mass, M_bin_edges, distance, dist_bin, z_bin, z=None, dataset
         # Use a volume of 3 Mpc
         max_distance = 3.0
 
+        # Adjust volume to fix the resulting stellar density to the universal value
+        omega_stellar = 3e-3
+        M_MW = 6.08e10 # Licquia & Newman (2015)
+        M_M31 = 10.3e10 # Sick et al. (2014)
+        M_tot = np.sum(10**tot_mass[dist_mask]) + M_MW + M_M31
+
+        V_tot = M_tot/(omega_stellar*cosmo.critical_density0.to("M_sun/Mpc^3").value) # effective volume in Mpc^3
+
+        max_distance = (V_tot / (4.0/3.0 * np.pi))**(1.0/3.0) # effective radius in Mpc
+
     if np.isneginf(dist_bin[0]) and np.isposinf(dist_bin[1]):
         if z is None:
             dV = 4.0/3.0 * np.pi * (max_distance * 1e6)**3
@@ -180,8 +190,8 @@ elif dataset in ["SDSS", "GAMA"]:
         dNdV = np.where(dNdV_err > dNdV, dNdV_err, dNdV)
         dNdMdV = np.where(dNdMdV_bin > dNdMdV, dNdMdV_bin, dNdMdV)
 
-data = np.array([M_bin_centers, dNdV, dNdMdV])
+data = np.array([M_bin_centers, (M_bin_edges[1:]-M_bin_edges[:-1]), dNdV, dNdMdV])
 
 footerText = "/Galaxies (SDSS)/'#2ecc71'/'-'/"
 np.savetxt("../data/galaxies_obs_" + dataset + ".txt", data.T,
-            fmt='%1.3e \t', header="M (M_s) \t dN/dV (pc^-3) \t dN/dMdV (M_s^-1 pc^-3)", footer=footerText)
+            fmt='%1.3e \t', header="M (M_s) \t dlog(M/M_s) \t dN/dV (pc^-3) \t dN/dMdV (M_s^-1 pc^-3)", footer=footerText)

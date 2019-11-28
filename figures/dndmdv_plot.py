@@ -77,6 +77,10 @@ mplan, ndplan, _ = np.genfromtxt(pwd + '/../data/planets_obs.txt').T
 #ndplan *= Ostar * mass_density_Mspc3 / rho_star
 ax1.plot(mplan, ndplan, c='#8C13DA', ls='-', label='Planets')
 
+mplan_tGK, ndplan_tGK, _ = np.genfromtxt(pwd + '/../data/transitingPlanets_GK.txt').T
+ax1.plot(mplan_tGK, ndplan_tGK, c='#F77F00',ls='-',label='Transiting GK planets')
+
+
 ## Obs: white dwarfs
 mwds,ndwds = np.genfromtxt(pwd + '/../data/WD_Number_Density.csv').T
 ax1.plot(mwds,ndwds, c='mediumpurple', ls = '-', label = 'White Dwarfs')
@@ -251,7 +255,7 @@ print('labels',labels)
 #labels, handles = zip(*sorted(zip(labels, handles), key=lambda t: t[0]))
 plt.legend(handles, labels, loc=[.4,.7], bbox_transform=ax1.transAxes, ncol=3, fontsize=6)
 #plt.tight_layout()
-plt.show()
+#plt.show()
 plt.savefig(pwd + '/dndmdv.png')
 
 # TODO: plot total mass of universe (number density of that mass over the size of the universe) and see if it agrees w/ where the 'Minimum' theory line and Baryons+DM line meet

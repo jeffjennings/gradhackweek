@@ -1,4 +1,4 @@
-# PlanetstransitingGKstars.   M [M_\odot] 	 dN / (dM dV) [M_\odot^-1 pc^-3]     dN / dV [pc^-3]
-4.200e-05 	 1.970e-08 	 1.300e-12 	
-1.151e-02 	 1.001e-11 	 2.300e-13 	
-1.450e-01 	 4.484e-13 	 1.300e-13 	
+# PlanetstransitingGKstars.   Bin center, log10(M [M_\odot]) 	 Bin width, log10(M [M_\odot])     dN / dV [pc^-3]     dN / (dV dlogM) [pc^-3 log10(M / M\odot)]
+4.200e-05 	 -4.180e+00 	 1.300e-12 	 -3.110e-13 	
+1.151e-02 	 -1.639e+00 	 2.300e-13 	 -1.403e-13 	
+1.450e-01 	 -5.378e-01 	 1.300e-13 	 -2.417e-13 	

@@ -8,6 +8,7 @@ fig_savename = pwd + '/dn_dv_dlogm.png'
 
 data = [
         ['Planets', 'planets_obs.txt', 0, '#e6194B', '-'],
+        ['Transiting GK Planets', 'transitingPlanets_GK.txt', 0, '#2EC4B6', '-'],
         #['White dwarfs', 'WD_Number_Density.csv', 0, '#3cb44b', '-'],
         #['Neutron stars', 'NS_Number_Density.csv', 0, '#ffe119', '-'],
         ['Stars, obs.', 'MADE_dNdVdlogM_M.csv', 0, '#4363d8', '-'],

@@ -47,7 +47,7 @@ ylo, yhi = 1e-33, 1e0
 M_all = np.array([xlo, xhi])
 #M_all = np.logspace(xlo, xhi, 500)
 
-plotBackground(ax1, xhi*1e4, ylo, '#011627')
+plotBackground(ax1, xhi*1e12, ylo, '#011627')
 
 ax1.set_xscale('log')
 ax1.set_yscale('log')
@@ -246,6 +246,11 @@ plt.axhline(nmin, ls='--', c='#F39C12', label='Minimum')
 #ax1.text(.83, .95, 'Theory', transform=ax1.transAxes, fontsize=8, color='k')
 handles, labels = ax1.get_legend_handles_labels()
 print('labels',labels)
+'''
+reorder = [0, 1, 2, 3, 4, 5]
+handles = [handles[i] for i in reorder]
+labels = [labels[i] for i in reorder]
+'''
 #labels, handles = zip(*sorted(zip(labels, handles), key=lambda t: t[0]))
 plt.legend(handles, labels, loc=[.4,.7], bbox_transform=ax1.transAxes, ncol=3, fontsize=6)
 #plt.tight_layout()

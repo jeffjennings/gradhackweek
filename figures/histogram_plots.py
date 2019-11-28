@@ -7,11 +7,11 @@ sys.path.insert(0,'../data_generation')
 
 from plot_funcs import *
 
-fig_savename = pwd + '/dn_dv.png'
-#fig_savename = pwd + '/dn_dv_dlogm.png'
+#fig_savename = pwd + '/dn_dv.png'
+fig_savename = pwd + '/dn_dv_dlogm.png'
 
 # 'WD_Number_Density.csv', 'NS_Number_Density.csv', \
-fns = ['planets_obs.txt', 'MADE_dNdVdlogM_M.csv', \
+fns = ['planets_obs.txt', 'MADE_dNdVdlogM_M.csv', 'imf_dNdVdlogM_M.csv', \
        'galaxies_obs_dwarfGal.txt', 'galaxies_obs_SDSS.txt', 'sdss_thanjavur2016.txt', 'galaxies_obs_GAMA.txt', \
        'illustris/BigPlotData_TNG300_mstar.txt', 'illustris/BigPlotData_TNG100_mstar.txt', \
        'eagle/BigPlotData_EAGLE_mstar.txt', 'eagle/BigPlotData_EAGLE25_mstar.txt', \
@@ -22,12 +22,12 @@ fns = ['planets_obs.txt', 'MADE_dNdVdlogM_M.csv', \
 
 fns = [pwd + '/../data/' + x for x in fns]
 
-cuts = [0, 0, 0, 1e7, 0, 1e7, 2e7, 2.3e6, 1e7, 1e6, 0, 1.2e10, 1.5e9, 3e8, 3e7, 0] # completeness cuts in x-range
+cuts = [0, 0, 0, 0, 1e7, 0, 1e7, 2e7, 2.3e6, 1e7, 1e6, 0, 1.2e10, 1.5e9, 3e8, 3e7, 0] # completeness cuts in x-range
 
-pwrs = [False, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True] # if the mass is given as 'pwr' in 10**pwr
+pwrs = [False, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True] # if the mass is given as 'pwr' in 10**pwr
 
 #'White dwarfs', 'Neutron stars',
-labs = ['Planets', 'Stars', 'Dwarf galaxies', 'Galaxies, SDSS', 'SDSS, Thanjavur+2016', \
+labs = ['Planets', 'Stars, obs.', 'Stars, IMF', 'Dwarf galaxies', 'Galaxies, SDSS', 'SDSS, Thanjavur+2016', \
         'Galaxies, GAMA', 'Galaxis, Illustris TNG300', 'Galaxis, Illustris TNG100', \
         'Galaxies, EAGLE100', 'Galaxies, EAGLE25', 'Auriga, M$_{vir}$', \
         'TNG300, M$_{vir}$', 'TNG100, M$_{vir}$', \

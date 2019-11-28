@@ -30,6 +30,7 @@ def plot_all(ax, fns, cuts, cs, lss, labs, pwrs):
         if pwrs[i]:
             bc = 10**bc
         plot_phys(ax, bc, dndv, cuts[i], cs[i], lss[i], labs[i])
+        #plot_phys(ax, bc, dndvdlm, cuts[i], cs[i], lss[i], labs[i])
 
 def load_data(fn):
     try:

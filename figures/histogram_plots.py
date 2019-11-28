@@ -7,7 +7,8 @@ sys.path.insert(0,'../data_generation')
 
 from plot_funcs import *
 
-fig_savename = pwd + '/dn_dv_dlogm.png'
+fig_savename = pwd + '/dn_dv.png'
+#fig_savename = pwd + '/dn_dv_dlogm.png'
 
 # 'WD_Number_Density.csv', 'NS_Number_Density.csv', \
 fns = ['planets_obs.txt', 'MADE_dNdVdlogM_M.csv', \

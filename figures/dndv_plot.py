@@ -174,7 +174,6 @@ ndgal_tng1_bar = np.genfromtxt(pwd + '/../data/illustris/dNbydMdV_Mbary_TNG100.t
 idxs = np.nonzero(ndgal_tng1_bar)
 mgal_tng1_bar = mgal_tng[idxs]
 ndgal_tng1_bar_new = ndgal_tng1_bar[idxs]
-
 ax1.plot(mgal_tng1_bar, ndgal_tng1_bar_new, c='#63E8D6', ls='-', label=r'TNG100, M$_{\rm bary}$')
 '''
 

@@ -16,8 +16,8 @@ data = [
         ['Galaxies, SDSS', 'galaxies_obs_SDSS.txt', 1e7, '#42d4f4', '-'],
         ['SDSS, Thanjavur+2016', 'sdss_thanjavur2016.txt', 0, '#f032e6', '-'],
         ['Galaxies, GAMA', 'galaxies_obs_GAMA.txt', 1e7, '#bfef45', '-'],
-        ['Galaxis, Illustris TNG300', 'illustris/BigPlotData_TNG300_mstar.txt', 2e7, '#fabebe', '-'],
-        ['Galaxis, Illustris TNG100', 'illustris/BigPlotData_TNG100_mstar.txt', 2.3e6, '#469990', '-'],
+        ['Galaxies, Illustris TNG300', 'illustris/BigPlotData_TNG300_mstar.txt', 2e7, '#fabebe', '-'],
+        ['Galaxies, Illustris TNG100', 'illustris/BigPlotData_TNG100_mstar.txt', 2.3e6, '#469990', '-'],
         ['Galaxies, EAGLE100', 'eagle/BigPlotData_EAGLE_mstar.txt', 1e7, '#e6beff', '-'],
         ['Galaxies, EAGLE25', 'eagle/BigPlotData_EAGLE25_mstar.txt', 1e6, '#9A6324', '-'],
         ['Auriga, M$_{vir}$', 'BigPlotData_Auriga_mvir.txt', 0, '#fffac8', '-'],
@@ -25,7 +25,7 @@ data = [
         ['TNG100, M$_{vir}$', 'illustris/BigPlotData_TNG100_mvir.txt', 1.5e9, '#aaffc3', '-'],
         ['EAGLE100, M$_{vir}$', 'eagle/BigPlotData_EAGLE_mvir.txt', 3e8, '#808000', '-'],
         ['EAGLE25, M$_{vir}$', 'eagle/BigPlotData_EAGLE25_mvir.txt', 3e7, '#ffd8b1', '-'],
-        #['Magneticum, M$_{vir}$', 'BigPlotData_Magneticum_mvir.txt', 0, '#000075', '-']
+        ['Magneticum, M$_{vir}$', 'BigPlotData_Magneticum_mvir.txt', 0, '#000075', '-']
        ]
 
 xlab, ylab = [r'Mass [M$_\odot]$', r'Number density, dN / dV d log$_{10}$(M) [pc$^{-3}]$']
@@ -57,7 +57,7 @@ ax1.plot(M_lim, cdm,  c='#2ECC71', ls='--', label='Dark matter')
 ax1.plot(M_lim, matter, c='#8E44AD', ls=':', label='Baryons + DM')
 ax1.axhline(nmin, ls='--', c='#F39C12', label='Minimum')
 #ax1.plot(M_lim, ncollapse / M_lim, ls='--', c='k', label='Self-collapse')
-#ax1.plot(m_nps, nps, ls='--', c='g', label='nps')
+ax1.plot(m_nps[:-1], nps, ls='--', c='g', label='P-S')
 
 
 ## observations and simulations

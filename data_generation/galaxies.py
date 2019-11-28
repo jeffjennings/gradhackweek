@@ -6,17 +6,17 @@ from astropy.cosmology import FlatLambdaCDM
 
 from astropy.io import fits
 
+# Cosmological values from Planck, as used by IllustrisTNG
+Omega_m = 0.3089
+h = 0.6774
+cosmo = FlatLambdaCDM(H0=h*100.0, Om0=Omega_m)
+
 if len(sys.argv) == 2:
     dataset = sys.argv[1]
 else:
-    dataset = "dwarfGal"
+    dataset = "SDSS"
 
 def get_data(dataset="SDSS"):
-    # Cosmological values from Planck, as used by IllustrisTNG
-    Omega_m = 0.3089
-    h = 0.6774
-    cosmo = FlatLambdaCDM(H0=h*100.0, Om0=Omega_m)
-
     if dataset == "SDSS":
         # Columns in table are tot_mass, tot_mass_width, z, z_err, objID, specObjID, petroR50_r, R_hlr (for 202842 objects)
         sdssdr7 = np.genfromtxt("../data/sdssdr7_mass_radius.csv", delimiter=',', skip_header=1)
@@ -47,22 +47,27 @@ def get_data(dataset="SDSS"):
         tot_mass = tot_mass[val_mass]
         distance = distance[val_mass]
         # radius = radius[val_mass]
+        z = None
 
     if dataset in ["SDSS", "GAMA"]:
         distance = cosmo.comoving_distance(z).to("Mpc").value
 
-    return (tot_mass, distance)
+    return (tot_mass, distance, z)
 
 # Bin data
 
-def get_dist_bins(distance, dataset="SDSS"):
+def get_dist_bins(distance, z=None, dataset="SDSS"):
     _, dist_bin_edges = np.histogram(distance, bins=50)
     # _, dist_bin_edges, _ = ax_dist.hist(distance, bins=50, color='k', histtype="step")
 
     # dist_bins = [(-np.inf, np.inf), (-np.inf, 100), (100, 200), (200, 300), (300, 400)]
 
     dist_bins = [(-np.inf, np.inf)]
+    z_bins = [(-np.inf, np.inf)]
     labels = ["All"]
+
+    if z is not None:
+        z_ip = np.linspace(0, 1.1*np.max(z), 1e6)
 
     if dataset == "SDSS":
         dbedges = np.array([0, 50, 100, 150, 200, 250, 275, 300, 320, 350])
@@ -70,9 +75,14 @@ def get_dist_bins(distance, dataset="SDSS"):
         dbedges = np.arange(0, 400, 50)
     elif dataset == "dwarfGal":
         dbedges = np.zeros(1)
+    
+    if z is not None:
+        zedges = np.interp(dbedges, cosmo.comoving_distance(z_ip), z_ip)
 
     for di in range(dbedges.size - 1):
         dist_bins.append((dbedges[di], dbedges[di+1]))
+        if z is not None:
+            z_bins.append((zedges[di], zedges[di+1]))
 
         if dbedges[di] == 0:
             labels.append(r"$D<{:.0f} \, \mathrm{{Mpc}}$".format(dbedges[di+1]))
@@ -81,7 +91,7 @@ def get_dist_bins(distance, dataset="SDSS"):
         else:
             labels.append(r"${:.0f} < D \leq {:.0f} \, \mathrm{{Mpc}}$".format(dbedges[di], dbedges[di+1]))
     
-    return (dist_bin_edges, dist_bins, labels)
+    return (dist_bin_edges, dist_bins, z_bins, labels)
 
 def get_mass_bins(dataset="SDSS"):
     if dataset in ["SDSS", "GAMA"]:
@@ -100,9 +110,13 @@ def get_mass_bins(dataset="SDSS"):
 
     return (M_bin_edges, M_bin_centers)
 
-def get_dndmdv(tot_mass, M_bin_edges, M_bin_centers, distance, dist_bin, dataset="SDSS"):
+def get_dndmdv(tot_mass, M_bin_edges, M_bin_centers, distance, dist_bin, z_bin, z=None, dataset="SDSS"):
     dist_mask = (distance > dist_bin[0]) * (distance <= dist_bin[1])
-    max_distance = np.max(distance[dist_mask])
+    argmax_distance = np.argmax(distance[dist_mask])
+    max_distance = distance[dist_mask][argmax_distance]
+    
+    if z is not None:
+        z_max = z[dist_mask][argmax_distance]
 
     N, _ = np.histogram(tot_mass[dist_mask], bins=M_bin_edges)
 
@@ -121,10 +135,15 @@ def get_dndmdv(tot_mass, M_bin_edges, M_bin_centers, distance, dist_bin, dataset
         max_distance = 3.0
 
     if np.isneginf(dist_bin[0]) and np.isposinf(dist_bin[1]):
-        dV = 4.0/3.0 * np.pi * (max_distance * 1e6)**3
+        if z is None:
+            dV = 4.0/3.0 * np.pi * (max_distance * 1e6)**3
+        else:
+            # dV = 4.0/3.0 * np.pi * (max_distance * 1e6)**3
+            dV = cosmo.comoving_volume(z_max).to("pc^3").value
     else:
         assert not (np.isneginf(dist_bin[0]) or np.isposinf(dist_bin[1]))
-        dV = 4.0/3.0 * np.pi * ((np.min([dist_bin[1], max_distance]) * 1e6)**3 - (dist_bin[0] * 1e6)**3)
+        # dV = 4.0/3.0 * np.pi * ((np.min([dist_bin[1], max_distance]) * 1e6)**3 - (dist_bin[0] * 1e6)**3)
+        dV = (cosmo.comoving_volume(np.min([z_bin[1], z_max]))-cosmo.comoving_volume(z_bin[0])).to("pc^3").value
 
     dNdV = N/(dV*sky_fraction)
     dNdV_err = N_err/(dV*sky_fraction)
@@ -134,7 +153,7 @@ def get_dndmdv(tot_mass, M_bin_edges, M_bin_centers, distance, dist_bin, dataset
 
     return (dNdM, dNdM_err, dNdV, dNdV_err, dNdMdV, dNdMdV_err)
 
-tot_mass, distance = get_data(dataset=dataset)
+tot_mass, distance, z = get_data(dataset=dataset)
 
 # plt.hist(tot_mass, bins=50)
 
@@ -142,18 +161,20 @@ min_mass = np.min(tot_mass)
 max_mass = np.max(tot_mass)
 # print("Mass range:", min_mass, max_mass)
 
-dist_bin_edges, dist_bins, labels = get_dist_bins(distance, dataset=dataset)
+dist_bin_edges, dist_bins, z_bins, labels = get_dist_bins(distance, z=z, dataset=dataset)
 
 M_bin_edges, M_bin_centers = get_mass_bins(dataset=dataset)
 
 if dataset == "dwarfGal":
-    dNdM, dNdM_err, dNdV, dNdV_err, dNdMdV, dNdMdV_err = get_dndmdv(tot_mass, M_bin_edges, M_bin_centers, distance, dist_bin=(-np.inf, np.inf), dataset=dataset)
+    dNdM, dNdM_err, dNdV, dNdV_err, dNdMdV, dNdMdV_err = get_dndmdv(tot_mass, M_bin_edges, M_bin_centers,
+                                            distance, z=z, dist_bin=(-np.inf, np.inf), z_bin=(-np.inf, np.inf), dataset=dataset)
 elif dataset in ["SDSS", "GAMA"]:
     dNdV = np.tile(-np.inf, M_bin_centers.size)
     dNdMdV = np.tile(-np.inf, M_bin_centers.size)
 
     for dbi, dist_bin in enumerate(dist_bins[1:]):
-        dNdM, dNdM_err, dNdV, dNdV_err, dNdMdV_bin, dNdMdV_err = get_dndmdv(tot_mass, M_bin_edges, M_bin_centers, distance, dist_bin, dataset=dataset)
+        dNdM, dNdM_err, dNdV, dNdV_err, dNdMdV_bin, dNdMdV_err = get_dndmdv(tot_mass, M_bin_edges, M_bin_centers,
+                                                                        distance, dist_bin, z_bins[1+dbi], z=z, dataset=dataset)
 
         dNdV = np.where(dNdV_err > dNdV, dNdV_err, dNdV)
         dNdMdV = np.where(dNdMdV_bin > dNdMdV, dNdMdV_bin, dNdMdV)

@@ -32,6 +32,10 @@ def makeCmap(hexColour, name, zeroColour='#FFFFFF'):
     cmap = mpl.colors.LinearSegmentedColormap(name, cdict)
     return cmap
 
+def plot_phys(ax, m, nd, phys, c, ls, label):
+    ax.plot(m, nd, c=c, ls=ls, alpha=0.3)
+    ax.plot(m[phys], nd[phys], c=c, ls=ls, label=label)
+
 
 gs = GridSpec(1, 1, bottom=.12, top=.95, left=.1, right=.98, hspace=0)
 fig = plt.figure(figsize=(11.69, 8.27))
@@ -73,6 +77,10 @@ mplan, ndplan, _ = np.genfromtxt(pwd + '/../data/planets_obs.txt').T
 #ndplan *= Ostar * mass_density_Mspc3 / rho_star
 ax1.plot(mplan, ndplan, c='#8C13DA', ls='-', label='Planets')
 
+mplan_tGK, ndplan_tGK, _ = np.genfromtxt(pwd + '/../data/transitingPlanets_GK.txt').T
+ax1.plot(mplan_tGK, ndplan_tGK, c='#F77F00',ls='-',label='Transiting GK planets')
+
+
 ## Obs: white dwarfs
 mwds,ndwds = np.genfromtxt(pwd + '/../data/WD_Number_Density.csv').T
 ax1.plot(mwds,ndwds, c='mediumpurple', ls = '-', label = 'White Dwarfs')
@@ -100,7 +108,8 @@ idxs = np.nonzero(nmdgal)
 mgal_new = mgal[idxs]
 nmdgal_new = nmdgal[idxs]
 
-ax1.plot(mgal_new, nmdgal_new, c='#CC2EC7', ls='-', label='Galaxies, SDSS')
+# ax1.plot(mgal_new, nmdgal_new, c='#CC2EC7', ls='-', label='Galaxies, SDSS')
+plot_phys(ax1, mgal_new, nmdgal_new, mgal_new > 1e7, c='#CC2EC7', ls='-', label='Galaxies, SDSS')
 
 
 ## Obs: galaxies, GAMA
@@ -111,7 +120,8 @@ idxs = np.nonzero(nmdgal)
 mgal_new = mgal[idxs]
 nmdgal_new = nmdgal[idxs]
 
-ax1.plot(mgal_new, nmdgal_new, c='k', ls='-', label='Galaxies, GAMA')
+# ax1.plot(mgal_new, nmdgal_new, c='k', ls='-', label='Galaxies, GAMA')
+plot_phys(ax1, mgal_new, nmdgal_new, mgal_new > 1e7, c='k', ls='-', label='Galaxies, GAMA')
 
 
 ## Simulations: galaxies -- Illustris TNG300
@@ -122,14 +132,16 @@ idxs = np.nonzero(ndgal_tng3)
 mgal_tng3 = mgal_tng[idxs]
 ndgal_tng3_new = ndgal_tng3[idxs]
 
-ax1.plot(mgal_tng3, ndgal_tng3_new, c='#EA5B42', ls='-', label='Galaxies, Illustris TNG300')
+# ax1.plot(mgal_tng3, ndgal_tng3_new, c='#EA5B42', ls='-', label='Galaxies, Illustris TNG300')
+plot_phys(ax1, mgal_tng3, ndgal_tng3_new, mgal_tng3 > 2e7, c='#EA5B42', ls='-', label='Galaxies, Illustris TNG300')
 
 ndgal_tng3_vir = np.genfromtxt(pwd + '/../data/illustris/dNbydMdV_Mvir_TNG300.txt').T
 idxs = np.nonzero(ndgal_tng3_vir)
 mgal_tng3_vir = mgal_tng[idxs]
 ndgal_tng3_vir_new = ndgal_tng3_vir[idxs]
 
-ax1.plot(mgal_tng3_vir, ndgal_tng3_vir_new, c='#802313', ls='-', label=r'TNG300, M$_{\rm vir}$')
+# ax1.plot(mgal_tng3_vir, ndgal_tng3_vir_new, c='#802313', ls='-', label=r'TNG300, M$_{\rm vir}$')
+plot_phys(ax1, mgal_tng3_vir, ndgal_tng3_vir_new, mgal_tng3_vir > 1.2e10, c='#802313', ls='-', label=r'TNG300, M$_{\rm vir}$')
 
 ## Illustris TNG100
 ndgal_tng1 = np.genfromtxt(pwd + '/../data/illustris/dNbydMdV_Mstar_TNG100.txt').T
@@ -137,14 +149,16 @@ idxs = np.nonzero(ndgal_tng1)
 mgal_tng1 = mgal_tng[idxs]
 ndgal_tng1_new = ndgal_tng1[idxs]
 
-ax1.plot(mgal_tng1, ndgal_tng1_new, c='#4284EA', ls='-', label='Galaxies, Illustris TNG100')
+# ax1.plot(mgal_tng1, ndgal_tng1_new, c='#4284EA', ls='-', label='Galaxies, Illustris TNG100')
+plot_phys(ax1, mgal_tng1, ndgal_tng1_new, mgal_tng1 > 2.3e6, c='#4284EA', ls='-', label='Galaxies, Illustris TNG100')
 
 ndgal_tng1_vir = np.genfromtxt(pwd + '/../data/illustris/dNbydMdV_Mvir_TNG100.txt').T
 idxs = np.nonzero(ndgal_tng1_vir)
 mgal_tng1_vir = mgal_tng[idxs]
 ndgal_tng1_vir_new = ndgal_tng1_vir[idxs]
 
-ax1.plot(mgal_tng1_vir, ndgal_tng1_vir_new, c='#274B83', ls='-', label=r'TNG100, M$_{\rm vir}$')
+# ax1.plot(mgal_tng1_vir, ndgal_tng1_vir_new, c='#274B83', ls='-', label=r'TNG100, M$_{\rm vir}$')
+plot_phys(ax1, mgal_tng1_vir, ndgal_tng1_vir_new, mgal_tng1_vir > 1.5e9, c='#274B83', ls='-', label=r'TNG100, M$_{\rm vir}$')
 
 '''
 ndgal_tng1_bar = np.genfromtxt(pwd + '/../data/illustris/dNbydMdV_Mbary_TNG100.txt').T
@@ -162,7 +176,8 @@ idxs = np.nonzero(ndgal_eag)
 mgal_eag = mgal_tng[idxs]
 ndgal_eag_new = ndgal_eag[idxs]
 
-ax1.plot(mgal_eag, ndgal_eag_new, c='#69FF02', ls='-', label='Galaxies, Eagle100')
+# ax1.plot(mgal_eag, ndgal_eag_new, c='#69FF02', ls='-', label='Galaxies, Eagle100')
+plot_phys(ax1, mgal_eag, ndgal_eag_new, mgal_eag > 1e7, c='#69FF02', ls='-', label='Galaxies, Eagle100')
 
 
 ndgal_eag_vir = np.genfromtxt(pwd + '/../data/eagle/dNbydMdV_Mvir_EAGLE.txt').T
@@ -170,21 +185,24 @@ idxs = np.nonzero(ndgal_eag_vir)
 mgal_eag_vir = mgal_tng[idxs]
 ndgal_eag_vir_new = ndgal_eag_vir[idxs]
 
-ax1.plot(mgal_eag_vir, ndgal_eag_vir_new, c='#3d850a', ls='-', label=r'M$_\mathrm{vir}$, Eagle100')
+# ax1.plot(mgal_eag_vir, ndgal_eag_vir_new, c='#3d850a', ls='-', label=r'M$_\mathrm{vir}$, Eagle100')
+plot_phys(ax1, mgal_eag_vir, ndgal_eag_vir_new, mgal_eag_vir > 3e8, c='#3d850a', ls='-', label=r'M$_\mathrm{vir}$, Eagle100')
 
 ndgal_eag25 = np.genfromtxt(pwd + '/../data/eagle/dNbydMdV_Mstar_EAGLE25').T
 idxs = np.nonzero(ndgal_eag25)
 mgal_eag25 = mgal_tng[idxs]
 ndgal_eag25_new = ndgal_eag25[idxs]
 
-ax1.plot(mgal_eag25, ndgal_eag25_new, c='#9f6203', ls='-', label='Galaxies, Eagle25')
+# ax1.plot(mgal_eag25, ndgal_eag25_new, c='#9f6203', ls='-', label='Galaxies, Eagle25')
+plot_phys(ax1, mgal_eag25, ndgal_eag25_new, mgal_eag25 > 1e6, c='#9f6203', ls='-', label='Galaxies, Eagle25')
 
 ndgal_eag25_vir = np.genfromtxt(pwd + '/../data/eagle/dNbydMdV_Mvir_EAGLE25').T
 idxs = np.nonzero(ndgal_eag25_vir)
 mgal_eag25_vir = mgal_tng[idxs]
 ndgal_eag25_vir_new = ndgal_eag25_vir[idxs]
 
-ax1.plot(mgal_eag25_vir, ndgal_eag25_vir_new, c='#f99700', ls='-', label=r'M$_\mathrm{vir}$, Eagle25')
+# ax1.plot(mgal_eag25_vir, ndgal_eag25_vir_new, c='#f99700', ls='-', label=r'M$_\mathrm{vir}$, Eagle25')
+plot_phys(ax1, mgal_eag25_vir, ndgal_eag25_vir_new, mgal_eag25_vir > 3e7, c='#f99700', ls='-', label=r'M$_\mathrm{vir}$, Eagle25')
 
 
 ndgal_mag_vir = np.loadtxt(pwd + '/../data/magneticum_range.csv', delimiter=',')
@@ -237,7 +255,7 @@ print('labels',labels)
 #labels, handles = zip(*sorted(zip(labels, handles), key=lambda t: t[0]))
 plt.legend(handles, labels, loc=[.4,.7], bbox_transform=ax1.transAxes, ncol=3, fontsize=6)
 #plt.tight_layout()
-plt.show()
+#plt.show()
 plt.savefig(pwd + '/dndmdv.png')
 
 # TODO: plot total mass of universe (number density of that mass over the size of the universe) and see if it agrees w/ where the 'Minimum' theory line and Baryons+DM line meet

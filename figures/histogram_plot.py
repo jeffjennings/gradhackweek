@@ -19,7 +19,7 @@ ax1 = fig.add_subplot(gs[0])
 
 ## background contours
 logslope = -1 # loglog slope of contours
-#plot_background(ax1, xlo, xhi, ylo + 20, yhi, logslope, 'k')
+plot_background(ax1, xlo, xhi, ylo + 20, yhi, logslope, 'k')
 
 
 ## theoretical limits
@@ -54,5 +54,5 @@ reorder = [0, 1, 2, 3, 4, 5]
 handles = [handles[i] for i in reorder]
 labels = [labels[i] for i in reorder]
 '''
-plt.legend(handles, labels, loc=[.45,.7], bbox_transform=ax1.transAxes, ncol=3, fontsize=6)
+plt.legend(handles, labels, loc=[.5,.7], bbox_transform=ax1.transAxes, ncol=3, fontsize=6)
 plt.savefig(fig_savename, dpi=300)

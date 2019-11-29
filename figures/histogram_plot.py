@@ -6,8 +6,8 @@ from plot_funcs import plot_background, plot_hist
 from misc_funcs import load_data
 from datasets import data_to_plot
 
-dataset = 'dn_dv_dlogm'
-#dataset = 'dn_dv_dlogr'
+# dataset = 'dn_dv_dlogm'
+dataset = 'dn_dv_dlogr'
 
 data, fig_savename, xlab, ylab, xlo, xhi, ylo, yhi = data_to_plot(dataset)
 
@@ -18,8 +18,16 @@ else: fig = plt.figure(figsize=(11.69, 8.27))
 ax1 = fig.add_subplot(gs[0])
 
 ## background contours
-logslope = -1 # loglog slope of contours
-#plot_background(ax1, xlo, xhi, ylo + 20, yhi, logslope, 'k')
+
+if dataset == 'dn_dv_dlogm':
+    logslope = -1 # loglog slope of contours
+    shift = 20
+    shift2 = 0
+if dataset == 'dn_dv_dlogr':
+    logslope = -3
+    shift = 12
+    shift2 = 20
+plot_background(ax1, xlo, xhi, ylo + shift, yhi + shift2, logslope, 'k')
 
 
 ## theoretical limits
@@ -54,5 +62,5 @@ reorder = [0, 1, 2, 3, 4, 5]
 handles = [handles[i] for i in reorder]
 labels = [labels[i] for i in reorder]
 '''
-plt.legend(handles, labels, loc=[.45,.7], bbox_transform=ax1.transAxes, ncol=3, fontsize=6)
+plt.legend(handles, labels, loc=[.5,.7], bbox_transform=ax1.transAxes, ncol=3, fontsize=6)
 plt.savefig(fig_savename, dpi=300)

@@ -24,13 +24,11 @@ def data_to_plot(set):
                 ['Galaxies, Illustris TNG100', 'illustris/BigPlotData_TNG100_mstar.txt', 2.3e6, '#469990', '-'],
                 ['Galaxies, EAGLE100', 'eagle/BigPlotData_EAGLE_mstar.txt', 1e7, '#e6beff', '-'],
                 ['Galaxies, EAGLE25', 'eagle/BigPlotData_EAGLE25_mstar.txt', 1e6, '#9A6324', '-'],
+                ['TNG300, M$_{BH}$', 'illustris/BigPlotData_TNG300_mbh.txt', 1e7, 'c', '-'],
+                ['TNG100, M$_{BH}$', 'illustris/BigPlotData_TNG100_mbh.txt', 1e7, 'g', '-'],
                 ['Auriga, M$_{vir}$', 'BigPlotData_Auriga_mvir.txt', 0, '#fffac8', '-'],
                 ['TNG300, M$_{vir}$', 'illustris/BigPlotData_TNG300_mvir.txt', 1.2e10, '#800000', '-'],
                 ['TNG100, M$_{vir}$', 'illustris/BigPlotData_TNG100_mvir.txt', 1.5e9, '#aaffc3', '-'],
-
-                ['TNG300, M$_{BH}', 'illustris/BigPlotData_TNG300_mbh.txt', 1e7, 'k', '-'],
-                ['TNG100, M$_{BH}', 'illustris/BigPlotData_TNG100_mbh.txt', 1e7, 'k', '-'],
-
                 ['EAGLE100, M$_{vir}$', 'eagle/BigPlotData_EAGLE_mvir.txt', 3e8, '#808000', '-'],
                 ['EAGLE25, M$_{vir}$', 'eagle/BigPlotData_EAGLE25_mvir.txt', 3e7, '#ffd8b1', '-'],
                 ['Magneticum, M$_{vir}$', 'BigPlotData_Magneticum_mvir.txt', 0, '#000075', '-']
@@ -57,7 +55,7 @@ def data_to_plot(set):
                 ['Galaxies, Illustris TNG100', 'illustris/BigPlotRadiusData_TNG100_rhalfmassstar.txt', 0, '#469990', '-'],
                 ['Galaxies, EAGLE100', 'eagle/BigPlotRadiusData_EAGLE_halfstarrad.txt', 0, '#e6beff', '-'],
                 #['Galaxies, EAGLE25', 'eagle/BigPlotData_EAGLE25_mstar.txt', 1e6, '#9A6324', '-'],
-                #['Auriga, M$_{vir}$', 'BigPlotData_Auriga_mvir.txt', 0, '#fffac8', '-'],
+                ['Auriga, R$_{vir}$', 'BigPlotData_Auriga_rvir.txt', 0, '#fffac8', '-'],
                 ['TNG300, R$_{vir}$', 'illustris/BigPlotRadiusData_TNG300_rvir.txt', 0, '#800000', '-'],
                 ['TNG100, R$_{vir}$', 'illustris/BigPlotRadiusData_TNG100_rvir.txt', 0, '#aaffc3', '-'],
                 ['EAGLE100, R$_{vir}$', 'eagle/BigPlotRadiusData_EAGLE_rvir.txt', 3e8, '#808000', '-'],

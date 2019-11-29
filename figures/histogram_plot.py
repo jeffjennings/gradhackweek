@@ -38,7 +38,6 @@ for i in range(len(data)):
     print('loading, plotting: ', dataset, '', data[i][0])
     x, y = load_data(data[i][1])
     data[i].extend([x,y])
-    print('y',y)
     plot_hist(ax1, data[i])
 
 ax1.set_xscale('log')

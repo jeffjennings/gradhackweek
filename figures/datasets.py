@@ -68,7 +68,7 @@ def data_to_plot(set):
         xlo, xhi = -10, 10 # figure x-axis bounds in log10(x)
         ylo, yhi = -25, -10
 
-    if set == 'dn_dv_dlogrho':
+    if set == 'dn_dv_dlogg':
         data = [
                 ['Planets', 'planets_obs.txt', 0, '#e6194B', '-'],
                 ['Transiting GK Planets', 'transitingPlanets_GK.txt', 0, '#2EC4B6', '-'],
@@ -92,8 +92,8 @@ def data_to_plot(set):
                 ['Magneticum, M$_{vir}$', 'BigPlotData_Magneticum_mvir.txt', 0, '#000075', '-']
                ]
 
-        fig_savename = pwd + '/dn_dv_dlogrho.png'
-        xlab, ylab = [r'Object mass density [$\rho_\odot$]$', r'Number density, dN / dV d log$_{10}(\rho) [pc$^{-3}]$']
+        fig_savename = pwd + '/dn_dv_dlogg.png'
+        xlab, ylab = [r'log$_{10}(g [m s$^{-2}$])', r'Number density, dN / dV d log$_{10}(\rho) [pc$^{-3}]$']
         xlo, xhi = -20, 20 # figure x-axis bounds in log10(x)
         ylo, yhi = -20, 20
 

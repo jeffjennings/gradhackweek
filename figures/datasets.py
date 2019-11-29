@@ -25,6 +25,10 @@ def data_to_plot(set):
                 ['Auriga, M$_{vir}$', 'BigPlotData_Auriga_mvir.txt', 0, '#fffac8', '-'],
                 ['TNG300, M$_{vir}$', 'illustris/BigPlotData_TNG300_mvir.txt', 1.2e10, '#800000', '-'],
                 ['TNG100, M$_{vir}$', 'illustris/BigPlotData_TNG100_mvir.txt', 1.5e9, '#aaffc3', '-'],
+
+                ['TNG300, M$_{BH}', 'illustris/BigPlotData_TNG300_mbh.txt', 1e7, 'k', '-'],
+                ['TNG100, M$_{BH}', 'illustris/BigPlotData_TNG100_mbh.txt', 1e7, 'k', '-'],
+
                 ['EAGLE100, M$_{vir}$', 'eagle/BigPlotData_EAGLE_mvir.txt', 3e8, '#808000', '-'],
                 ['EAGLE25, M$_{vir}$', 'eagle/BigPlotData_EAGLE25_mvir.txt', 3e7, '#ffd8b1', '-'],
                 ['Magneticum, M$_{vir}$', 'BigPlotData_Magneticum_mvir.txt', 0, '#000075', '-']

@@ -18,8 +18,9 @@ else: fig = plt.figure(figsize=(11.69, 8.27))
 ax1 = fig.add_subplot(gs[0])
 
 ## background contours
-logslope = -1 # loglog slope of contours
-plot_background(ax1, xlo, xhi, ylo + 20, yhi, logslope, 'k')
+if dataset == 'dn_dv_dlogm':
+    logslope = -1 # loglog slope of contours
+    plot_background(ax1, xlo, xhi, ylo + 20, yhi, logslope, 'k')
 
 
 ## theoretical limits

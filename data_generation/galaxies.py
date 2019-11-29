@@ -19,6 +19,9 @@ if __name__ == '__main__':
 else:
     datasets = []
 
+if "dwarfGal" in datasets:
+    r_effective = 3.0 # Mpc (adjust later)
+
 def get_data(dataset="SDSS"):
     if dataset == "SDSS":
         # Columns in table are tot_mass, tot_mass_width, z, z_err, objID, specObjID, petroR50_r, R_hlr (for 202842 objects)
@@ -30,34 +33,52 @@ def get_data(dataset="SDSS"):
         z = sdssdr7[:, 2] # redshift
         # z_err = sdssdr7[:, 3]
         # petroR50_r = sdssdr7[:, 6]
-        # R_hlr = sdssdr7[:, 7]
+        R_hlr = sdssdr7[:, 7]
+
+        mass = tot_mass
+        radius = np.log10(1e3 * R_hlr) # from kpc to pc
     elif dataset == "GAMA":
         # gamaData = fits.open('../data/GAMA.fits')[1].data
-        # tot_mass = gamaData['logmstar'] # log(M) with M in M_sun
+        # logmstar = gamaData['logmstar'] # log(M) with M in M_sun
         gamaData = fits.open('../data/GAMA_massradii.fits')[1].data
-        tot_mass = gamaData['logmstar'] # log(M) with M in M_sun
         z = gamaData['Z'] # redshift
+        logmstar = gamaData['logmstar'] # log(M) with M in M_sun
+        semimajor = gamaData['SEMIMAJOR'] # semimajor axis in arcsec
 
-        mass_limit = np.where((tot_mass > 5.9) * (z < 0.08))
-        tot_mass = tot_mass[mass_limit]
+        mass_limit = np.where((z < 0.08) * (logmstar > 5.9) * np.isfinite(semimajor))
         z = z[mass_limit]
+        mass = logmstar[mass_limit]
+        # Convert radii (semimajor axis) in arcsec to proper pc
+        radius = np.log10(semimajor[mass_limit]/cosmo.arcsec_per_kpc_proper(z).to("arcsec/pc").value)
     elif dataset == "dwarfGal":
         dg = fits.open('../data/dwarfGal.fits')[1].data
-        tot_mass = np.log10(1e6 * dg["Mass"]) # log(M) with M in M_sun
+        mass = np.log10(1e6 * dg["Mass"]) # log(M) with M in M_sun
         distance = dg["D_MW_"]/1e3 # distance in Mpc
-        # radius = dg["R1"] # in arcmin
+        radius = dg["R1"] # in arcmin
 
-        val_mass = np.where(np.isfinite(tot_mass))
+        val_meas = np.where(np.isfinite(mass) * (radius > 0.0))
 
-        tot_mass = tot_mass[val_mass]
-        distance = distance[val_mass]
-        # radius = radius[val_mass]
         z = None
+        distance = distance[val_meas]
+        mass = mass[val_meas]
+        # Get the radius in pc from the radius in arcmin (convert to radians) and distance in Mpc (convert to pc)
+        radius = np.log10(np.tan(radius[val_meas]/60.0*(np.pi/180.0)) * (distance*1e6))
+
+        # Adjust volume (survey contains objects within 3 Mpc) to fix the resulting stellar density to the universal value
+        omega_stellar = 3e-3
+        M_MW = 6.08e10 # Licquia & Newman (2015)
+        M_M31 = 10.3e10 # Sick et al. (2014)
+        M_tot = np.sum(10**mass) + M_MW + M_M31
+
+        V_tot = M_tot/(omega_stellar*cosmo.critical_density0.to("M_sun/Mpc^3").value) # effective volume in Mpc^3
+
+        r_effective = (V_tot / (4.0/3.0 * np.pi))**(1.0/3.0) # effective radius in Mpc
 
     if dataset in ["SDSS", "GAMA"]:
+        r_effective = None
         distance = cosmo.comoving_distance(z).to("Mpc").value
 
-    return (tot_mass, distance, z)
+    return (mass, radius, distance, z, r_effective)
 
 # Bin data
 
@@ -100,22 +121,26 @@ def get_dist_bins(distance, z=None, dataset="SDSS"):
 
 def get_mass_bins(dataset="SDSS"):
     if dataset in ["SDSS", "GAMA"]:
-        # N_bins = int(1e4)
-        # M_bin_edges = np.arange(np.round(min_mass, 1)-0.1, np.round(max_mass, 1)+0.1, 0.1)
-        # M_bin_edges = np.log10(np.logspace(np.round(min_mass, 1)-0.1, np.round(max_mass, 1)+0.1, 1e4))
         M_bin_edges = np.linspace(5, np.log10(5e15), 200)
         # M_bin_edges_Ill = np.loadtxt("../data/illustris/mbins.txt")
-
-        M_bin_centers = 0.5*(M_bin_edges[:-1] + M_bin_edges[1:])
     elif dataset == "dwarfGal":
         M_bin_edges = np.linspace(2.5, 9.5, 5)
 
-        M_bin_centers = 0.5*(M_bin_edges[:-1] + M_bin_edges[1:])
-
+    M_bin_centers = 0.5*(M_bin_edges[:-1] + M_bin_edges[1:])
 
     return (M_bin_edges, M_bin_centers)
 
-def get_dndmdv(tot_mass, M_bin_edges, distance, dist_bin, z_bin, z=None, dataset="SDSS"):
+def get_radius_bins(dataset="SDSS"):
+    if dataset in ["SDSS", "GAMA"]:
+        R_bin_edges = np.arange(1, 7, 0.05)
+    elif dataset == "dwarfGal":
+        R_bin_edges = np.linspace(1.5, 3.5, 5)
+
+    R_bin_centers = 0.5*(R_bin_edges[:-1] + R_bin_edges[1:])
+
+    return (R_bin_edges, R_bin_centers)
+
+def get_densities(quantity, bin_edges, distance, dist_bin, z_bin, z=None, r_effective=None, dataset="SDSS"):
     dist_mask = (distance > dist_bin[0]) * (distance <= dist_bin[1])
     argmax_distance = np.argmax(distance[dist_mask])
     max_distance = distance[dist_mask][argmax_distance]
@@ -123,13 +148,13 @@ def get_dndmdv(tot_mass, M_bin_edges, distance, dist_bin, z_bin, z=None, dataset
     if z is not None:
         z_max = z[dist_mask][argmax_distance]
 
-    N, _ = np.histogram(tot_mass[dist_mask], bins=M_bin_edges)
+    N, _ = np.histogram(quantity[dist_mask], bins=bin_edges)
 
     N_err = np.sqrt(N)
 
-    # Divide by the width of the mass bins (NB: now using bin width in log(M)!)
-    dNdM = N/(M_bin_edges[1:]-M_bin_edges[:-1])
-    dNdM_err = N_err/(M_bin_edges[1:]-M_bin_edges[:-1])
+    # Divide by the width of the (mass) bins (NB: now using bin width in log(Quantity)!)
+    dNdQuantity = N/(bin_edges[1:]-bin_edges[:-1])
+    dNdQuantity_err = N_err/(bin_edges[1:]-bin_edges[:-1])
 
     if dataset == "SDSS":
         sky_fraction = 8032.0/(4.0*np.pi*(180.0/np.pi)**2) #8032.0 square degrees for SDSS
@@ -137,18 +162,8 @@ def get_dndmdv(tot_mass, M_bin_edges, distance, dist_bin, z_bin, z=None, dataset
         sky_fraction = 296.158/(4.0*np.pi*(180.0/np.pi)**2)
     elif dataset == "dwarfGal":
         sky_fraction = 1.0
-        # Use a volume of 3 Mpc
-        max_distance = 3.0
-
-        # Adjust volume to fix the resulting stellar density to the universal value
-        omega_stellar = 3e-3
-        M_MW = 6.08e10 # Licquia & Newman (2015)
-        M_M31 = 10.3e10 # Sick et al. (2014)
-        M_tot = np.sum(10**tot_mass[dist_mask]) + M_MW + M_M31
-
-        V_tot = M_tot/(omega_stellar*cosmo.critical_density0.to("M_sun/Mpc^3").value) # effective volume in Mpc^3
-
-        max_distance = (V_tot / (4.0/3.0 * np.pi))**(1.0/3.0) # effective radius in Mpc
+        # Use a volume that effectively sets the density to the mean cosmological density
+        max_distance = r_effective
 
     if np.isneginf(dist_bin[0]) and np.isposinf(dist_bin[1]):
         if z is None:
@@ -164,36 +179,32 @@ def get_dndmdv(tot_mass, M_bin_edges, distance, dist_bin, z_bin, z=None, dataset
     dNdV = N/(dV*sky_fraction)
     dNdV_err = N_err/(dV*sky_fraction)
 
-    dNdMdV = dNdM/(dV*sky_fraction)
-    dNdMdV_err = dNdM_err/(dV*sky_fraction)
+    dNdQuantitydV = dNdQuantity/(dV*sky_fraction)
+    dNdQuantitydV_err = dNdQuantity_err/(dV*sky_fraction)
 
-    return (dNdM, dNdM_err, dNdV, dNdV_err, dNdMdV, dNdMdV_err)
+    return (dNdQuantity, dNdQuantity_err, dNdV, dNdV_err, dNdQuantitydV, dNdQuantitydV_err)
 
 
 
 for dataset in datasets:
-    tot_mass, distance, z = get_data(dataset=dataset)
-
-    # plt.hist(tot_mass, bins=50)
-
-    min_mass = np.min(tot_mass)
-    max_mass = np.max(tot_mass)
-    # print("Mass range:", min_mass, max_mass)
+    mass, radius, distance, z, r_effective = get_data(dataset=dataset)
 
     dist_bin_edges, dist_bins, z_bins, labels = get_dist_bins(distance, z=z, dataset=dataset)
 
     M_bin_edges, M_bin_centers = get_mass_bins(dataset=dataset)
+    R_bin_edges, R_bin_centers = get_radius_bins(dataset=dataset)
 
+    # Mass data
     if dataset == "dwarfGal":
-        dNdM, dNdM_err, dNdV, dNdV_err, dNdMdV, dNdMdV_err = get_dndmdv(tot_mass, M_bin_edges, distance,
-                                                z=z, dist_bin=(-np.inf, np.inf), z_bin=(-np.inf, np.inf), dataset=dataset)
+        dNdM, dNdM_err, dNdV, dNdV_err, dNdMdV, dNdMdV_err = get_densities(mass, M_bin_edges, distance,
+                                dist_bin=(-np.inf, np.inf), z_bin=(-np.inf, np.inf), r_effective=r_effective, dataset=dataset)
     elif dataset in ["SDSS", "GAMA"]:
         dNdV_final = np.tile(-np.inf, M_bin_centers.size)
         dNdMdV_final = np.tile(-np.inf, M_bin_centers.size)
 
         for dbi, dist_bin in enumerate(dist_bins[1:]):
-            dNdM, dNdM_err, dNdV, dNdV_err, dNdMdV, dNdMdV_err = get_dndmdv(tot_mass, M_bin_edges, distance,
-                                                                            dist_bin, z_bins[1+dbi], z=z, dataset=dataset)
+            dNdM, dNdM_err, dNdV, dNdV_err, dNdMdV, dNdMdV_err = get_densities(mass, M_bin_edges, distance,
+                                                z=z, dist_bin=dist_bin, z_bin=z_bins[1+dbi], dataset=dataset)
 
             dNdV_final = np.where(dNdV > dNdV_final, dNdV, dNdV_final)
             dNdMdV_final = np.where(dNdMdV > dNdMdV_final, dNdMdV, dNdMdV_final)
@@ -201,5 +212,26 @@ for dataset in datasets:
     data = np.array([M_bin_centers, (M_bin_edges[1:]-M_bin_edges[:-1]), dNdV, dNdMdV])
 
     footerText = "/Galaxies (SDSS)/'#2ecc71'/'-'/"
-    np.savetxt("../data/galaxies_obs_" + dataset + ".txt", data.T,
-                fmt='%1.3e \t', header="M (M_s) \t dlog(M/M_s) \t dN/dV (pc^-3) \t dN/dMdV (M_s^-1 pc^-3)", footer=footerText)
+    np.savetxt("../data/galaxies_obs_mass_" + dataset + ".txt", data.T,
+                fmt='%1.3e \t', header="log(M (M_s)) \t dlog(M/M_s) \t dN/dV (pc^-3) \t dN/dlog(M/M_s)dV (log(M/M_s)^-1 pc^-3)", footer=footerText)
+    
+    # Radius data
+    if dataset == "dwarfGal":
+        dNdR, dNdR_err, dNdV, dNdV_err, dNdRdV, dNdRdV_err = get_densities(radius, R_bin_edges, distance,
+                                dist_bin=(-np.inf, np.inf), z_bin=(-np.inf, np.inf), r_effective=r_effective, dataset=dataset)
+    elif dataset in ["SDSS", "GAMA"]:
+        dNdV_final = np.tile(-np.inf, R_bin_centers.size)
+        dNdRdV_final = np.tile(-np.inf, R_bin_centers.size)
+
+        for dbi, dist_bin in enumerate(dist_bins[1:]):
+            dNdR, dNdR_err, dNdV, dNdV_err, dNdRdV, dNdRdV_err = get_densities(radius, R_bin_edges, distance,
+                                                z=z, dist_bin=dist_bin, z_bin=z_bins[1+dbi], dataset=dataset)
+
+            dNdV_final = np.where(dNdV > dNdV_final, dNdV, dNdV_final)
+            dNdRdV_final = np.where(dNdRdV > dNdRdV_final, dNdRdV, dNdRdV_final)
+
+    data = np.array([R_bin_centers, (R_bin_edges[1:]-R_bin_edges[:-1]), dNdV, dNdRdV])
+
+    footerText = "/Galaxies (SDSS)/'#2ecc71'/'-'/"
+    np.savetxt("../data/galaxies_obs_radius_" + dataset + ".txt", data.T,
+                fmt='%1.3e \t', header="log(R (pc)) \t dlog(R/pc) \t dN/dV (pc^-3) \t dN/dlog(R/pc)dV (log(R/pc)^-1 pc^-3)", footer=footerText)

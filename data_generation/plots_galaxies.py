@@ -18,7 +18,7 @@ else:
     datasets = []
 
 for dataset in datasets:
-    mass, radius, distance, z, r_effective = get_data(dataset=dataset)
+    mass, radius, density, surf_grav, distance, z, r_effective = get_data(dataset=dataset)
     dist_bin_edges, dist_bins, z_bins, labels = get_dist_bins(distance, z=z, dataset=dataset)
     M_bin_edges, M_bin_centers = get_mass_bins(dataset=dataset)
     R_bin_edges, R_bin_centers = get_radius_bins(dataset=dataset)

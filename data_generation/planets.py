@@ -45,7 +45,8 @@ plt.xscale('log')
 plt.xlabel(r'Mass [M$_\odot$]')
 plt.ylabel('N')
 
-dmdn = hist / (np.diff(bin_edges) * jup_to_sun)
+#dmdn = hist / (np.diff(bin_edges) * jup_to_sun)
+dmdn = hist / np.diff(np.log10(bin_edges*jup_to_sun))
 cut_dist = 1000 # [pc]
 dmdndv = dmdn / cut_dist**3
 dndv = hist / cut_dist**3

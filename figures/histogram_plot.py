@@ -6,7 +6,8 @@ from plot_funcs import plot_background, plot_hist
 from misc_funcs import load_data
 from datasets import data_to_plot
 
-dataset = 'dn_dv_dlogm'
+#dataset = 'dn_dv_dlogm'
+dataset = 'dn_dv_dlogr'
 
 data, fig_savename, xlab, ylab, xlo, xhi, ylo, yhi = data_to_plot(dataset)
 
@@ -16,17 +17,9 @@ if smallplot: fig = plt.figure(figsize=(10, 4))
 else: fig = plt.figure(figsize=(11.69, 8.27))
 ax1 = fig.add_subplot(gs[0])
 
-ax1.set_xscale('log')
-ax1.set_yscale('log')
-ax1.set_xlim(10 ** xlo, 10 ** xhi)
-ax1.set_ylim(10 ** ylo, 10 ** yhi)
-ax1.set_xlabel(xlab)
-ax1.set_ylabel(ylab)
-
-
 ## background contours
 logslope = -1 # loglog slope of contours
-plot_background(ax1, xlo, xhi, ylo + 20, yhi, logslope, 'k')
+#plot_background(ax1, xlo, xhi, ylo + 20, yhi, logslope, 'k')
 
 
 ## theoretical limits
@@ -45,8 +38,15 @@ for i in range(len(data)):
     print('loading, plotting: ', dataset, '', data[i][0])
     x, y = load_data(data[i][1])
     data[i].extend([x,y])
+    print('y',y)
     plot_hist(ax1, data[i])
 
+ax1.set_xscale('log')
+ax1.set_yscale('log')
+ax1.set_xlim(10 ** xlo, 10 ** xhi)
+ax1.set_ylim(10 ** ylo, 10 ** yhi)
+ax1.set_xlabel(xlab)
+ax1.set_ylabel(ylab)
 
 handles, labels = ax1.get_legend_handles_labels()
 '''

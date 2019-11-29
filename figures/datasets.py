@@ -55,7 +55,7 @@ def data_to_plot(set):
                 ['Galaxies, Illustris TNG100', 'illustris/BigPlotRadiusData_TNG100_rhalfmassstar.txt', 0, '#469990', '-'],
                 ['Galaxies, EAGLE100', 'eagle/BigPlotRadiusData_EAGLE_halfstarrad.txt', 0, '#e6beff', '-'],
                 #['Galaxies, EAGLE25', 'eagle/BigPlotData_EAGLE25_mstar.txt', 1e6, '#9A6324', '-'],
-                #['Auriga, M$_{vir}$', 'BigPlotData_Auriga_mvir.txt', 0, '#fffac8', '-'],
+                ['Auriga, R$_{vir}$', 'BigPlotData_Auriga_rvir.txt', 0, '#fffac8', '-'],
                 ['TNG300, R$_{vir}$', 'illustris/BigPlotRadiusData_TNG300_rvir.txt', 0, '#800000', '-'],
                 ['TNG100, R$_{vir}$', 'illustris/BigPlotRadiusData_TNG100_rvir.txt', 0, '#aaffc3', '-'],
                 ['EAGLE100, R$_{vir}$', 'eagle/BigPlotRadiusData_EAGLE_rvir.txt', 3e8, '#808000', '-'],

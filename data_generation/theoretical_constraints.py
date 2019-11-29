@@ -31,5 +31,5 @@ gamma_ps = 1 + neff/3.0
 rhoav= matter*M_lim
 dndM = (gamma_ps/np.sqrt(np.pi))*(M_lim**(gamma_ps/2.0 - 2.0))*Bt*rhoav*np.exp(-(Bt**2)*(M_lim**gamma_ps))
 nps = (1.0/(np.sqrt(np.pi)))*(Bt**(2.0/gamma_ps))*rhoav * gammainc(0.5 - 1.0/gamma_ps, Bt*Bt*(M_lim**gamma_ps))
-m_nps, nps = np.genfromtxt(pwd + '/../data/' + 'ps_data.csv', delimiter=',').T
+m_nps, nps = np.genfromtxt(pwd + '/../data/ps_data.csv', delimiter=',').T
 nps = nps[:-1] / np.diff(np.log10(m_nps))

@@ -1,37 +1,11 @@
-import matplotlib as mpl
 import numpy as np
-import os
-pwd = os.getcwd()
 
-def plotBackground(ax, x0, y0, colour):
-    cmap=makeCmap(colour,'backgroundColour')
-    yMin=y0*np.power(x0/1e20,1)
-    yMax=y0*np.power(x0/1e-20,1)
-    nColours=25
-    change=0.01
-    for i in range(nColours):
-        ax.fill([1e-20,1e-20,1e20],[yMax*change**i, yMin*change**i, yMin*change**i], c=cmap((i+1)/nColours), zorder=i + 1 - 100)
-
-def makeCmap(hexColour, name, zeroColour='#FFFFFF'):
-    r0,g0,b0=mpl.colors.hex2color(zeroColour)
-    r,g,b=mpl.colors.hex2color(hexColour)
-    cdict = {'red':   ((0.0, r0, r0),
-                      (1.0, r, r)),
-             'green': ((0.0, g0, g0),
-                      (1.0, g, g)),
-             'blue':  ((0.0, b0, b0),
-                      (1.0, b, b))
-            }
-    cmap = mpl.colors.LinearSegmentedColormap(name, cdict)
-    return cmap
-
-
-def load_data(fn):
-    x, xw, _, y = np.genfromtxt(pwd + '/../data/' + fn).T
-    idxs = np.nonzero(y)
-    x = x[idxs]
-    y = y[idxs]
-    return x, y
+def plot_background(ax, xlo, xhi, ylo, yhi, logslope, colour):
+    xs = np.linspace(xlo, xhi, xhi - xlo + 1)
+    ys = np.linspace(ylo, yhi, yhi - ylo + 1)
+    lines = [10 ** (logslope * xs + yy + xlo) for yy in ys]
+    for i in range(len(lines[:-1])):
+        ax.fill_between(10 ** xs, lines[i], lines[i + 1], lw=0, color=colour, alpha= 1 - i / len(lines[:-1]))
 
 def plot_hist(ax, data):
     label, fn, cut, c, ls, x, y = data

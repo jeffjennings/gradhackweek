@@ -7,6 +7,12 @@ Login to slack to access the workspace --  http://slack.com
 The overleaf is linked in the slack under the `#paper` channel.
 
 --------------------------
+**To make a histogram figure**
+
+I) Ensure your dataset is in _datasets.py_, noting the set name (`set == xx`) and choosing the figure's save filename, axis labels and axis limits.
+II) In _histogram_plot.py_ set `dataset = xx` and run!
+
+--------------------------
 Just in case it's helpful, a (very) quick guide to the basics of using github:
 
 **Getting this repository on your computer**  

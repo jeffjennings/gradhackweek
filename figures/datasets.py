@@ -2,6 +2,10 @@ import os
 pwd = os.getcwd()
 
 def data_to_plot(set):
+    """
+    The form of each entry in data is:
+    [Legend label, Datafile, x-value below which data is plotted with low alpha, line color, linestyle]
+    """
     if set == 'dn_dv_dlogm':
         data = [
                 ['Planets', 'planets_obs.txt', 0, '#e6194B', '-'],

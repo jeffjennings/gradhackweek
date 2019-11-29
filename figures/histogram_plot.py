@@ -6,8 +6,8 @@ from plot_funcs import plot_background, plot_hist
 from misc_funcs import load_data
 from datasets import data_to_plot
 
-#dataset = 'dn_dv_dlogm'
-dataset = 'dn_dv_dlogr'
+dataset = 'dn_dv_dlogm'
+#dataset = 'dn_dv_dlogr'
 
 data, fig_savename, xlab, ylab, xlo, xhi, ylo, yhi = data_to_plot(dataset)
 

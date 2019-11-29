@@ -14,6 +14,7 @@ I) Ensure your dataset is in _figures/datasets.py_, noting the set name (`set ==
 II) In _figures/histogram_plot.py_ set `dataset = xx` and run!
 
 **Adding data to the figure**
+
 I) Add a line to the appropriate dataset in _figures/datasets.py_ (see the format in the docstring there), then run _figures/histogram_plot.py_.
 
 --------------------------

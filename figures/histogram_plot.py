@@ -18,13 +18,13 @@ ax1 = fig.add_subplot(gs[0])
 
 ax1.set_xscale('log')
 ax1.set_yscale('log')
-ax1.set_xlim(10**xlo, 10**xhi)
-ax1.set_ylim(10**ylo, 10**yhi)
+ax1.set_xlim(10 ** xlo, 10 ** xhi)
+ax1.set_ylim(10 ** ylo, 10 ** yhi)
 ax1.set_xlabel(xlab)
 ax1.set_ylabel(ylab)
 
 
-## background M^{-1} contours
+## background contours
 logslope = -1 # loglog slope of contours
 plot_background(ax1, xlo, xhi, ylo + 20, yhi, logslope, 'k')
 

@@ -9,6 +9,6 @@ def plot_background(ax, xlo, xhi, ylo, yhi, logslope, colour):
 
 def plot_hist(ax, data):
     label, fn, cut, c, ls, x, y = data
-    x = 10**x
+    x = 10 ** x
     if cut > 0: ax.plot(x, y, c=c, ls=ls, alpha=0.3)
     ax.plot(x[x > cut], y[x > cut], c=c, ls=ls, label=label)
